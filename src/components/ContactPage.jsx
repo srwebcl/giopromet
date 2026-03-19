@@ -71,13 +71,7 @@ export default function ContactPage() {
               </a>
             </div>
 
-            <div className="bg-white/5 border border-white/10 p-8 rounded-[2rem] opacity-60">
-              <div className="w-14 h-14 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-6">
-                <MapPin className="w-6 h-6 text-blue-400" />
-              </div>
-              <h3 className="text-xl font-black text-white mb-2">Oficinas</h3>
-              <p className="text-slate-500 text-sm">Distribución a todo Chile desde Santiago.</p>
-            </div>
+
           </div>
 
           {/* Contact Form Column */}
