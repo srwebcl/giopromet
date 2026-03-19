@@ -59,12 +59,14 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3 text-sm">
               {[
-                '📧 Contacto',
-                '❓ Preguntas FAQ',
-                '🚚 Rastreo de pedido',
-                '🔄 Cambios y devoluciones',
+                { label: '📧 Contacto', href: '/contacto' },
+                { label: '❓ Preguntas FAQ', href: '/#faq' },
+                { label: '🚚 Rastreo de pedido', href: '/#rastreo' },
+                { label: '🔄 Cambios y devoluciones', href: '/garantia-y-devoluciones' },
               ].map((item, i) => (
-                <li key={i}><span className="hover:text-white cursor-pointer transition-colors duration-200">{item}</span></li>
+                <li key={i}>
+                  <a href={item.href} className="hover:text-white transition-colors duration-200">{item.label}</a>
+                </li>
               ))}
             </ul>
           </div>
@@ -76,11 +78,13 @@ export default function Footer() {
             </h4>
             <ul className="space-y-3 text-sm">
               {[
-                '📋 Términos y condiciones',
-                '🔒 Política de privacidad',
-                '🛡️ Garantía y devoluciones',
+                { label: '📋 Términos y condiciones', href: '/terminos-y-condiciones' },
+                { label: '🔒 Política de privacidad', href: '/politica-de-privacidad' },
+                { label: '🛡️ Garantía y devoluciones', href: '/garantia-y-devoluciones' },
               ].map((item, i) => (
-                <li key={i}><span className="hover:text-white cursor-pointer transition-colors duration-200">{item}</span></li>
+                <li key={i}>
+                  <a href={item.href} className="hover:text-white transition-colors duration-200">{item.label}</a>
+                </li>
               ))}
             </ul>
           </div>
@@ -92,9 +96,7 @@ export default function Footer() {
           <div className="flex items-center gap-3 text-xs text-slate-600">
             <span className="flex items-center gap-1.5">🔒 SSL Seguro</span>
             <span className="w-px h-4 bg-white/10" />
-            <span className="flex items-center gap-1.5">⚡ Astro + React</span>
-            <span className="w-px h-4 bg-white/10" />
-            <span className="flex items-center gap-1.5">🇨🇱 Hecho en Chile</span>
+            <span className="flex items-center gap-1.5">Desarrollado por ⚡ <span className="text-amber-400 font-bold uppercase tracking-widest">SRweb</span></span>
           </div>
         </div>
       </div>

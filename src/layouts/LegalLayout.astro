@@ -1,0 +1,51 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  emoji?: string;
+}
+
+const { title, subtitle, emoji = "📋" } = Astro.props;
+---
+
+<BaseLayout title={`${title} - Giopromet`}>
+  <div class="min-h-screen bg-white">
+    <!-- Header de la página legal -->
+    <div class="bg-[#060910] pt-32 pb-20 px-4">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="inline-flex items-center justify-center w-20 h-20 bg-amber-400/10 rounded-3xl border border-amber-400/20 mb-6 text-4xl">
+          {emoji}
+        </div>
+        <h1 class="text-4xl md:text-5xl font-black text-white mb-4">{title}</h1>
+        {subtitle && <p class="text-slate-400 text-lg max-w-2xl mx-auto">{subtitle}</p>}
+      </div>
+    </div>
+
+    <!-- Contenido Legal -->
+    <div class="py-20 px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto prose prose-slate prose-lg lg:prose-xl prose-headings:text-slate-900 prose-headings:font-black prose-p:text-slate-600 prose-li:text-slate-600">
+        <slot />
+      </div>
+    </div>
+
+    <!-- CTA Footer legal -->
+    <div class="bg-slate-50 border-t border-slate-100 py-16 px-4 text-center">
+       <p class="text-slate-400 text-sm font-bold uppercase tracking-widest mb-6">¿Aún tienes dudas?</p>
+       <a href="/#contacto" class="inline-flex items-center gap-2 bg-[#060910] text-white px-8 py-4 rounded-2xl font-black hover:scale-105 transition-transform">
+         Contactar Soporte
+       </a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  /* Personalización extra para el contenido legal */
+  .prose h2 {
+    @apply mt-12 mb-6 border-b border-slate-100 pb-2;
+  }
+  .prose p {
+    @apply mb-6 leading-relaxed;
+  }
+</style>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Zap, CheckCircle2, Truck, Globe, ArrowRight, Plane,
-  ShoppingCart, Star, Shield, Clock, Users, ChevronDown,
+  ShoppingCart, Star, Shield, Clock, Users,
   Sparkles, TrendingUp, Rocket, Package
 } from 'lucide-react';
 import { CartProvider, useCart } from '../context/CartContext.jsx';
@@ -154,28 +154,64 @@ function AppContent() {
         <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-amber-400 rounded-full blur-[140px] opacity-10 pointer-events-none animate-float-slow" />
         <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)', backgroundSize: '36px 36px' }} />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-28 pb-16 lg:pt-24 lg:pb-14">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20 pb-16 lg:pt-24 lg:pb-14">
+          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
-            {/* Columna texto */}
-            <div className={`flex flex-col gap-6 text-center lg:text-left transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-              <div className="flex justify-center lg:justify-start">
-                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-400/20 to-amber-500/10 border border-amber-400/40 text-amber-300 font-bold text-xs tracking-widest uppercase px-5 py-2.5 rounded-full backdrop-blur-sm">
-                  <Zap className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                  ⭐ Producto Más Vendido
+            {/* ── Título Mobile (Solo visible en < lg) ── */}
+            <div className={`lg:hidden order-1 text-center transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              <div className="flex justify-center mb-4">
+                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-400/20 to-amber-500/10 border border-amber-400/40 text-amber-300 font-bold text-[10px] tracking-widest uppercase px-4 py-1.5 rounded-full backdrop-blur-sm">
+                  <Zap className="w-3 h-3 fill-amber-400 text-amber-400" />
+                  ⭐ Más Vendido
                 </div>
               </div>
-
-              <h1 id="hero" className="leading-none tracking-tight">
-                <span className="block text-4xl sm:text-5xl lg:text-6xl font-light text-white/90 mb-1">Masajeador</span>
-                <span className="block text-shimmer text-4xl sm:text-5xl lg:text-6xl font-black whitespace-nowrap">Cervical Eléctrico</span>
+              <h1 className="leading-none tracking-tight">
+                <span className="block text-4xl font-light text-white/90 mb-1">Masajeador</span>
+                <span className="block text-shimmer text-4xl font-black">Cervical Eléctrico</span>
               </h1>
+            </div>
 
-              <p className="text-slate-300 text-lg sm:text-xl leading-relaxed max-w-xl mx-auto lg:mx-0">{heroProduct.description}</p>
+            {/* ── Columna imagen (Segunda en mobile, segunda en desktop) ── */}
+            <div className={`order-2 lg:order-2 relative flex items-center justify-center transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+              <div className="absolute w-[280px] h-[280px] sm:w-[480px] sm:h-[480px] rounded-full bg-gradient-to-br from-amber-400/20 to-blue-500/10 blur-2xl animate-float-slow" />
+              <div className="absolute w-[250px] h-[250px] sm:w-[440px] sm:h-[440px] rounded-full border border-white/10" />
+              <div className="relative animate-float-product">
+                <DiscountBadge />
+                <div className="relative w-56 h-56 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-3xl overflow-hidden border-2 border-white/20 shadow-2xl animate-glow-border">
+                  <img src={heroProduct.image} alt={heroProduct.title} className="w-full h-full object-cover" width="400" height="400" loading="eager" />
+                  <div className="absolute bottom-0 inset-x-0 h-1/3 bg-gradient-to-t from-slate-900/60 to-transparent" />
+                </div>
+                <div className="absolute -bottom-4 -left-2 sm:-left-6 bg-green-500 text-white rounded-xl sm:rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 shadow-xl flex items-center gap-2 font-bold text-[10px] sm:text-sm whitespace-nowrap">
+                  <Truck className="w-3.5 h-3.5 sm:w-4 h-4" />Envío Rápido
+                </div>
+                <div className="absolute -top-2 -left-4 sm:-left-8 bg-white text-slate-900 rounded-xl sm:rounded-2xl px-2.5 sm:px-3.5 py-1.5 sm:py-2.5 shadow-xl flex items-center gap-1.5 sm:gap-2 font-bold text-[10px] sm:text-sm">
+                  <Star className="w-3.5 h-3.5 sm:w-4 h-4 text-amber-400 fill-amber-400" /><span>4.9</span><span className="text-slate-400 font-normal text-[8px] sm:text-xs">(2.4k)</span>
+                </div>
+              </div>
+            </div>
+
+            {/* ── Columna texto (Tercera en mobile, primera en desktop) ── */}
+            <div className={`order-3 lg:order-1 flex flex-col gap-6 text-center lg:text-left transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+              
+              {/* Título Desktop (Oculto en mobile para no duplicar si ya salió arriba) */}
+              <div className="hidden lg:block">
+                <div className="flex justify-center lg:justify-start mb-6">
+                  <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-400/20 to-amber-500/10 border border-amber-400/40 text-amber-300 font-bold text-xs tracking-widest uppercase px-5 py-2.5 rounded-full backdrop-blur-sm">
+                    <Zap className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                    ⭐ Producto Más Vendido
+                  </div>
+                </div>
+                <h1 id="hero" className="leading-none tracking-tight">
+                  <span className="block text-4xl sm:text-5xl lg:text-6xl font-light text-white/90 mb-1">Masajeador</span>
+                  <span className="block text-shimmer text-4xl sm:text-5xl lg:text-6xl font-black whitespace-nowrap">Cervical Eléctrico</span>
+                </h1>
+              </div>
+
+              <p className="text-slate-300 text-base sm:text-xl leading-relaxed max-w-xl mx-auto lg:mx-0">{heroProduct.description}</p>
 
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-w-xl mx-auto lg:mx-0 text-left">
                 {heroProduct.features.slice(0, 4).map((f, i) => (
-                  <li key={i} className="flex items-center gap-2.5 text-sm text-slate-300">
+                  <li key={i} className="flex items-center gap-2.5 text-[13px] sm:text-sm text-slate-300">
                     <CheckCircle2 className="w-4 h-4 text-cyan-400 flex-shrink-0" />
                     {f}
                   </li>
@@ -185,17 +221,17 @@ function AppContent() {
               <div className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
                 <StatsBadge icon={<Star className="w-4 h-4 fill-current" />} value="4.9★" label="Calificación" />
                 <StatsBadge icon={<Users className="w-4 h-4" />} value="+2.400" label="Compraron" />
-                <StatsBadge icon={<Clock className="w-4 h-4" />} value="2-3 días" label="Envío rápido" />
+                <StatsBadge icon={<Clock className="w-4 h-4" />} value="Nacional" label="Envío Rápido" />
               </div>
 
               <div className="flex items-end gap-4 justify-center lg:justify-start">
                 <div>
-                  <p className="text-slate-400 text-sm mb-0.5 uppercase tracking-wider font-semibold">Precio especial</p>
-                  <span className="text-5xl sm:text-6xl font-black text-white leading-none">{formatPrice(heroProduct.price)}</span>
+                  <p className="text-slate-400 text-xs sm:text-sm mb-0.5 uppercase tracking-wider font-semibold">Precio especial</p>
+                  <span className="text-4xl sm:text-6xl font-black text-white leading-none">{formatPrice(heroProduct.price)}</span>
                 </div>
                 <div className="pb-1.5 flex flex-col items-start gap-1">
-                  <span className="text-slate-400 text-lg line-through font-bold">{formatPrice(heroProduct.oldPrice)}</span>
-                  <span className="bg-red-500 text-white text-xs font-black px-2 py-0.5 rounded-md">
+                  <span className="text-slate-400 text-sm sm:text-lg line-through font-bold">{formatPrice(heroProduct.oldPrice)}</span>
+                  <span className="bg-red-500 text-white text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-md">
                     AHORRAS {formatPrice(heroProduct.oldPrice - heroProduct.price)}
                   </span>
                 </div>
@@ -207,7 +243,7 @@ function AppContent() {
                   className={`relative group flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-base font-black tracking-wide transition-all duration-300 shadow-2xl overflow-hidden ${added ? 'bg-green-500 text-white shadow-green-500/40' : 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 shadow-amber-500/40 hover:shadow-amber-500/60 hover:scale-105 active:scale-95'}`}
                 >
                   <span className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12" />
-                  {added ? <><CheckCircle2 className="w-5 h-5" />¡Agregado al carrito!</> : <><ShoppingCart className="w-5 h-5" />AGREGAR AL CARRITO<ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" /></>}
+                  {added ? <><CheckCircle2 className="w-5 h-5" />¡Agregado!</> : <><ShoppingCart className="w-5 h-5" />AGREGAR AL CARRITO</>}
                 </button>
                 <a href={`/producto/${heroProduct.id}`} className="flex items-center justify-center gap-2 px-6 py-4 rounded-2xl border border-white/20 text-white font-bold text-sm hover:bg-white/10 transition-all backdrop-blur-sm">
                   Ver detalles <ArrowRight className="w-4 h-4" />
@@ -215,37 +251,14 @@ function AppContent() {
               </div>
 
               <div className="flex flex-wrap gap-4 justify-center lg:justify-start pt-1">
-                <TrustPill icon={<Shield className="w-3.5 h-3.5" />} text="Compra 100% segura" />
-                <TrustPill icon={<Truck className="w-3.5 h-3.5" />} text="Envío gratis" />
-                <TrustPill icon={<CheckCircle2 className="w-3.5 h-3.5" />} text="Garantía incluida" />
-              </div>
-            </div>
-
-            {/* Columna imagen */}
-            <div className={`relative flex items-center justify-center transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-12'}`}>
-              <div className="absolute w-[380px] h-[380px] sm:w-[480px] sm:h-[480px] rounded-full bg-gradient-to-br from-amber-400/20 to-blue-500/10 blur-2xl animate-float-slow" />
-              <div className="absolute w-[340px] h-[340px] sm:w-[440px] sm:h-[440px] rounded-full border border-white/10" />
-              <div className="absolute w-[300px] h-[300px] sm:w-[390px] sm:h-[390px] rounded-full border border-white/5" />
-              <div className="relative animate-float-product">
-                <DiscountBadge />
-                <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-3xl overflow-hidden border-2 border-white/20 shadow-2xl animate-glow-border">
-                  <img src={heroProduct.image} alt={heroProduct.title} className="w-full h-full object-cover" width="400" height="400" loading="eager" />
-                  <div className="absolute bottom-0 inset-x-0 h-1/3 bg-gradient-to-t from-slate-900/60 to-transparent" />
-                </div>
-                <div className="absolute -bottom-4 -left-6 bg-green-500 text-white rounded-2xl px-4 py-2.5 shadow-xl flex items-center gap-2 font-bold text-sm">
-                  <Truck className="w-4 h-4" />Envío en 2-3 días
-                </div>
-                <div className="absolute -top-2 -left-8 bg-white text-slate-900 rounded-2xl px-3.5 py-2.5 shadow-xl flex items-center gap-2 font-bold text-sm">
-                  <Star className="w-4 h-4 text-amber-400 fill-amber-400" /><span>4.9</span><span className="text-slate-400 font-normal text-xs">(2.4k)</span>
-                </div>
+                <TrustPill icon={<Shield className="w-3.5 h-3.5" />} text="Seguro" />
+                <TrustPill icon={<Truck className="w-3.5 h-3.5" />} text="En Todo Chile" />
+                <TrustPill icon={<CheckCircle2 className="w-3.5 h-3.5" />} text="Garantía" />
               </div>
             </div>
           </div>
 
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-slate-400 opacity-60">
-            <span className="text-xs tracking-widest uppercase">Explorar</span>
-            <ChevronDown className="w-5 h-5 animate-bounce" />
-          </div>
+
         </div>
       </section>
 
@@ -338,19 +351,19 @@ function AppContent() {
               icon={<Zap className="w-10 h-10 text-green-400" />}
               iconBg="bg-green-500/15 border border-green-500/20"
               title="Envío Rápido Nacional"
-              time="2 a 3 Días Hábiles"
+              time="Bodega Chile"
               timeColor="text-green-400"
               borderColor="border-green-500/20 hover:border-green-400/40"
-              description="Aplicable a nuestro Producto Destacado, Productos Wow y Virales. Operamos con inventario local para garantizar la máxima velocidad."
+              description="Todos los productos que se encuentran en bodega nacional y están etiquetados con 'Envío Rápido'. Procesamiento inmediato para entregas veloces."
             />
             <ShippingCard
               icon={<Plane className="w-10 h-10 text-blue-400" />}
               iconBg="bg-blue-500/15 border border-blue-500/20"
               title="Envío Internacional"
-              time="10 a 15 Días Hábiles"
+              time="Bodega Global"
               timeColor="text-blue-400"
               borderColor="border-blue-500/20 hover:border-blue-400/40"
-              description="Aplicable a nuestra categoría de Accesorios Complementarios. Importación directa para ampliar nuestro catálogo con el mejor valor."
+              description="Productos seleccionados de importación directa sujetos a disponibilidad en bodegas internacionales. Ideales para ampliar la variedad con lo mejor del mundo."
             />
           </div>
 
@@ -359,7 +372,7 @@ function AppContent() {
             {[
               { icon: <Shield className="w-6 h-6 text-amber-400" />, label: 'Compra Segura', sub: 'SSL 256-bit' },
               { icon: <CheckCircle2 className="w-6 h-6 text-green-400" />, label: 'Garantía', sub: '30 días' },
-              { icon: <Truck className="w-6 h-6 text-blue-400" />, label: 'Envío Gratis', sub: 'Sin mínimo' },
+              { icon: <Truck className="w-6 h-6 text-blue-400" />, label: 'Envíos a Todo Chile', sub: 'Sin mínimo' },
               { icon: <Star className="w-6 h-6 text-purple-400 fill-purple-400" />, label: 'Top Rated', sub: '4.9 / 5 ★' },
             ].map((item, i) => (
               <div key={i} className="flex flex-col items-center gap-2 bg-white/5 border border-white/10 rounded-2xl py-5 px-3 hover:border-white/20 transition-all">

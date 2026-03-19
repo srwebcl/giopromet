@@ -95,7 +95,7 @@ export default function CartSummary({ editable = true, minimal = false }) {
           <span className="text-xs font-black uppercase tracking-widest">Envío</span>
           <div className="flex items-center gap-2 text-green-400">
              <Truck className="w-4 h-4" />
-             <span className="text-xs font-black">GRATIS</span>
+             <span className="text-xs font-black uppercase tracking-widest">Envíos a Todo Chile</span>
           </div>
         </div>
 
