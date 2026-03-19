@@ -5,20 +5,32 @@ const formatPrice = (price) => {
   return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(price);
 };
 
-export default function ConfirmationPage({ orderId }) {
+export default function ConfirmationPage({ orderId: propOrderId = null }) {
   const [order, setOrder] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [activeOrderId, setActiveOrderId] = useState(propOrderId);
 
   useEffect(() => {
-    const orders = JSON.parse(localStorage.getItem('giopromet_orders') || '[]');
-    const foundOrder = orders.find(o => o.id === orderId);
-    setOrder(foundOrder);
-  }, [orderId]);
+    let finalOrderId = propOrderId;
+    if (!finalOrderId && typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      finalOrderId = params.get('id');
+    }
+    setActiveOrderId(finalOrderId);
+
+    if (finalOrderId) {
+      const orders = JSON.parse(localStorage.getItem('giopromet_orders') || '[]');
+      const foundOrder = orders.find(o => o.id === finalOrderId);
+      setOrder(foundOrder);
+    }
+  }, [propOrderId]);
 
   const handleCopyOrderId = () => {
-    navigator.clipboard.writeText(orderId);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    if (activeOrderId) {
+      navigator.clipboard.writeText(activeOrderId);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   if (!order) {
@@ -62,7 +74,7 @@ export default function ConfirmationPage({ orderId }) {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6 mb-10 p-6 bg-slate-900/50 border border-white/5 rounded-3xl">
             <div>
               <p className="text-[10px] sm:text-xs font-black text-slate-500 uppercase tracking-widest mb-1 text-center sm:text-left">Número de seguimiento interno</p>
-              <p className="text-2xl sm:text-3xl font-black text-amber-400 text-center sm:text-left">{orderId}</p>
+              <p className="text-2xl sm:text-3xl font-black text-amber-400 text-center sm:text-left">{activeOrderId}</p>
             </div>
             <button
               onClick={handleCopyOrderId}

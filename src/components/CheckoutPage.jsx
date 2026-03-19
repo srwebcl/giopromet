@@ -55,9 +55,9 @@ export default function CheckoutPage() {
     // Limpiar carrito
     clearCart();
 
-    // Redirigir a confirmación
+    // Redirigir a confirmación (estático con query param)
     setTimeout(() => {
-      window.location.href = `/confirmacion/${orderId}`;
+      window.location.href = `/confirmacion?id=${orderId}`;
     }, 500);
   };
 

@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import {
-  Search, SlidersHorizontal, X, ArrowUpDown, ChevronDown,
+  Search, X, ArrowUpDown, ChevronDown,
   TrendingUp, Rocket, Sparkles, LayoutGrid, ShoppingBag,
   Filter, Star, ArrowRight, Zap, CheckCircle2, Shield
 } from 'lucide-react';

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   ShoppingCart, Truck, Globe, ArrowRight, Plus, Minus,
-  Check, Star, Shield, RotateCcw, Zap, ChevronLeft
+  Check, Star, Shield, RotateCcw, Zap
 } from 'lucide-react';
 import { useCart } from '../context/CartContext.jsx';
 import ProductCard from './ui/ProductCard.jsx';
