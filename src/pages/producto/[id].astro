@@ -1,0 +1,27 @@
+---
+import { getProductById, getAllProducts } from '../../data/products.js';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductDetailWithCart from '../../components/ProductDetailWithCart.jsx';
+
+export async function getStaticPaths() {
+  const products = getAllProducts();
+  return products.map(product => ({
+    params: { id: product.id },
+    props: { product }
+  }));
+}
+
+interface Props {
+  product: any;
+}
+
+const { product } = Astro.props as Props;
+
+if (!product) {
+  return Astro.redirect('/');
+}
+---
+
+<BaseLayout title={`${product.title} | Giopromet`} description={product.description}>
+  <ProductDetailWithCart client:load product={product} />
+</BaseLayout>

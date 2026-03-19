@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CatalogPage from '../components/CatalogPage.jsx';
+---
+
+<BaseLayout
+  title="Catálogo de Productos | Giopromet"
+  description="Explora todos nuestros gadgets y tecnología. Filtra por categoría, busca y encuentra el producto perfecto al mejor precio."
+>
+  <CatalogPage client:load />
+</BaseLayout>

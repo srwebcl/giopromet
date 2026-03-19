@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CartPageWithCart from '../components/CartPageWithCart.jsx';
+---
+
+<BaseLayout title="Tu Carrito | Giopromet" description="Revisa los items en tu carrito de compras">
+  <CartPageWithCart client:load />
+</BaseLayout>
+
