@@ -1,8 +1,26 @@
 ---
 import Prototipo from '../components/Prototipo.jsx';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getAllProducts } from '../data/products.js';
+
+const allProducts = await getAllProducts();
+
+// Seleccionar productos para las secciones
+// 1. Prioridad: Productos marcados con la "Estrella" (featured) en WordPress
+// 2. Segunda opción: Categoría "tendencias"
+const heroProduct = allProducts.find(p => p.featured) || allProducts.find(p => p.category === 'tendencias') || allProducts[0];
+
+const trendingProducts = allProducts.filter(p => p.category === 'tendencias').slice(0, 2);
+const viralProducts = allProducts.filter(p => p.category === 'virales').slice(0, 2);
+const complementaryProducts = allProducts.filter(p => p.category === 'gadgets' || p.category === 'general').slice(0, 2);
 ---
 
 <BaseLayout>
-  <Prototipo client:load />
+  <Prototipo 
+    client:load 
+    heroProduct={heroProduct}
+    trendingProducts={trendingProducts}
+    viralProducts={viralProducts}
+    complementaryProducts={complementaryProducts}
+  />
 </BaseLayout>

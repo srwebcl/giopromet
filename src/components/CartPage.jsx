@@ -7,7 +7,15 @@ const formatPrice = (price) => {
 };
 
 export default function CartPage() {
-  const { cartItems, cartTotal, removeItem, updateQuantity } = useCart();
+  const { cartItems, cartTotal, removeItem, updateQuantity, checkoutUrl, isHydrated } = useCart();
+
+  if (!isHydrated) {
+    return (
+      <div className="min-h-screen bg-[#080c14] flex items-center justify-center">
+        <div className="w-12 h-12 border-4 border-amber-400 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#080c14] text-slate-300 pt-28 pb-20">
@@ -164,7 +172,7 @@ export default function CartPage() {
 
               {/* Checkout Action */}
               <a
-                href="/checkout"
+                href={checkoutUrl()}
                 className="group w-full h-16 flex items-center justify-center gap-3 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-900 font-black rounded-2xl transition-all shadow-xl shadow-amber-500/20 hover:scale-[1.02] active:scale-[0.98] mb-6"
               >
                 IR AL PAGO SEGURO

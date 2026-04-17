@@ -1,5 +1,7 @@
-// Todos los productos de la tienda
-export const allProducts = [
+import * as wc from '../lib/woocommerce.js';
+
+// Todos los productos de la tienda (Fallback estático por seguridad)
+const staticProducts = [
   {
     id: 'p1',
     category: 'tendencias',
@@ -38,152 +40,62 @@ export const allProducts = [
     discount: '-14%',
     features: [
       'Tamaño compacto y portátil',
-      'Conectividad Bluetooth y USB',
-      'Batería de larga duración',
-      'Compatible con múltiples dispositivos',
-      'Impresión a color',
-      'Resolución: 300 DPI'
-    ]
-  },
-  {
-    id: 'p3',
-    category: 'tendencias',
-    categoryLabel: 'Tendencias',
-    title: '💡 Luz LED con Sensor de Movimiento',
-    description: 'Iluminación inteligente que se enciende automáticamente.',
-    fullDescription: 'Lámpara LED inteligente con sensor de movimiento infrarrojo. Ahorra energía y proporciona iluminación dondequiera que la necesites.',
-    price: 19990,
-    oldPrice: 24990,
-    shipping: { type: 'fast', text: 'Envío Rápido' },
-    image: '/images-products/lampara-led-inteligente.jpeg',
-    imageText: 'Lámpara LED',
-    discount: '-20%',
-    features: [
-      'Sensor de movimiento infrarrojo',
-      'Múltiples modos de brillo',
-      'Bajo consumo de energía',
-      'Diseño moderno y compacto',
-      'Instalación fácil mediante adhesivo',
-      'Alcance de detección: 3-5 metros'
-    ]
-  },
-  {
-    id: 'p4',
-    category: 'virales',
-    categoryLabel: 'Virales',
-    title: '🌪️ Aspiradora Portátil Inalámbrica',
-    description: 'Potencia de succión increíble en un tamaño compacto.',
-    fullDescription: 'Aspiradora inalámbrica de mano rediseñada con motor potente y batería de larga duración. Perfecta para limpiezas rápidas en el hogar.',
-    price: 29990,
-    oldPrice: 39990,
-    shipping: { type: 'fast', text: 'Envío Rápido' },
-    image: '/images-products/aspiradora-portatil.webp',
-    imageText: 'Aspiradora Portátil',
-    discount: '-25%',
-    features: [
-      'Motor inalámbrico potente',
-      'Batería de larga duración',
-      'Múltiples accesorios incluidos',
-      'Filtro HEPA desmontable',
-      'Peso ligero: 1.2 kg',
-      'Tiempo de carga: 3 horas'
-    ]
-  },
-  {
-    id: 'p5',
-    category: 'virales',
-    categoryLabel: 'Virales',
-    title: '🔌 Cargador Inalámbrico 3 en 1 Magnet',
-    description: 'Carga tu teléfono, reloj y auriculares simultáneamente.',
-    fullDescription: 'Cargador inalámbrico magnético 3 en 1 diseñado para dispositivos Apple. Carga rápida y eficiente con tecnología Qi certificada.',
-    price: 29990,
-    oldPrice: 39990,
-    shipping: { type: 'fast', text: 'Envío Rápido' },
-    image: '/images-products/cargador-hypergear.webp',
-    imageText: 'Cargador 3 en 1',
-    discount: '-25%',
-    features: [
-      'Carga 3 dispositivos simultáneamente',
-      'Tecnología Qi certificada',
-      'Conexión magnética fuerte',
-      'Compatible con iPhone, Apple Watch, AirPods',
-      'Entrada USB-C',
-      'Salida: 15W máximo'
-    ]
-  },
-  {
-    id: 'p6',
-    category: 'gadgets',
-    categoryLabel: 'Gadgets',
-    title: '☀️ Cargador Solar Portátil Resistente',
-    description: 'Energía solar para tus dispositivos en cualquier lugar.',
-    fullDescription: 'Cargador solar portátil con panel convertible de alta eficiencia. Resistente al agua y perfecto para camping, senderismo y aventuras.',
-    price: 29990,
-    oldPrice: 44990,
-    shipping: { type: 'standard', text: 'Envío Internacional' },
-    image: '/images-products/cargador-solar.webp',
-    imageText: 'Cargador Solar',
-    discount: '-33%',
-    features: [
-      'Panel solar de alta eficiencia',
-      'Resistente al agua (IP65)',
-      'Capacidad: 25000 mAh',
-      'Puertos USB múltiples',
-      'Compatible con todos los dispositivos',
-      'Tiempo de carga solar: 8-10 horas'
-    ]
-  },
-  {
-    id: 'p7',
-    category: 'gadgets',
-    categoryLabel: 'Gadgets',
-    title: '📻 Radio de Emergencia Solar Verde',
-    description: 'Radio multifunción preparado para cualquier emergencia.',
-    fullDescription: 'Radio de emergencia solar con linterna, cargador de teléfono integrado y brújula. Ideal para preparación de emergencias y viajes al aire libre.',
-    price: 34990,
-    oldPrice: 49990,
-    shipping: { type: 'standard', text: 'Envío Internacional' },
-    image: '/images-products/cargador-solar.webp',
-    imageText: 'Radio Solar',
-    discount: '-30%',
-    features: [
-      'Carga solar y manual',
-      'Linterna LED integrada',
-      'Cargador de teléfono USB',
-      'Brújula integrada',
-      'Frecuencias AM/FM/NOAA',
-      'Batería recargable 2000 mAh'
+      'Conectividad Bluetooth y USB'
     ]
   }
+  // Se pueden añadir más fallbacks si es necesario, pero la idea es usar la API.
 ];
 
-// ── Funciones helper ──────────────────────────────────────
-export function getProductById(id) {
-  return allProducts.find(product => product.id === id);
+// --- Funciones de obtención de datos (AHORA ASÍNCRONAS) ------------------
+
+export async function getAllProducts() {
+  try {
+    const products = await wc.getAllProducts();
+    if (products && products.length > 0) return products;
+  } catch (e) {
+    console.warn('⚠️ Fallo de conexión con WooCommerce (getAllProducts), usando estático.');
+  }
+  return staticProducts;
 }
 
-export function getAllProducts() {
-  return allProducts;
+export async function getProductById(id) {
+  try {
+    const product = await wc.getProductById(id);
+    if (product) return product;
+  } catch (e) {
+    console.warn(`⚠️ Error al obtener producto ${id} de WC, buscando en estático.`);
+  }
+  const all = await getAllProducts();
+  return all.find(p => p.id === id.toString());
 }
 
-export function getProductsByIds(ids) {
-  return allProducts.filter(product => ids.includes(product.id));
+export async function getProductsByCategory(category) {
+  const all = await getAllProducts();
+  if (category === 'all') return all;
+  return all.filter(product => product.category === category);
 }
 
-export function getProductsByCategory(category) {
-  return allProducts.filter(product => product.category === category);
-}
-
-// ── Grupos por sección del home ───────────────────────────
-export const heroProduct   = allProducts.find(p => p.id === 'p1');
-export const trendingProducts     = allProducts.filter(p => ['p2', 'p3'].includes(p.id));
-export const viralProducts        = allProducts.filter(p => ['p4', 'p5'].includes(p.id));
-export const complementaryProducts = allProducts.filter(p => ['p6', 'p7'].includes(p.id));
-
-// ── Categorías disponibles ────────────────────────────────
-export const CATEGORIES = [
+// --- Categorías disponibles --------------------------------
+const staticCategories = [
   { id: 'all',        label: 'Todos',       emoji: '🛍️' },
   { id: 'tendencias', label: 'Tendencias',  emoji: '🔥' },
   { id: 'virales',    label: 'Virales',     emoji: '🚀' },
   { id: 'gadgets',    label: 'Gadgets',     emoji: '✨' },
 ];
+
+export async function getCategories() {
+  try {
+    const categories = await wc.getCategories();
+    if (categories && categories.length > 0) {
+      const dynamic = categories.map(cat => ({
+        id: cat.slug,
+        label: cat.name,
+        emoji: '✨' // Por defecto para categorías nuevas
+      }));
+      return [{ id: 'all', label: 'Todos', emoji: '🛍️' }, ...dynamic];
+    }
+  } catch (e) {
+    console.warn('⚠️ Error al obtener categorías de WC.');
+  }
+  return staticCategories;
+}

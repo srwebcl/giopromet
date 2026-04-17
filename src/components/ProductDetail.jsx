@@ -5,7 +5,6 @@ import {
 } from 'lucide-react';
 import { useCart } from '../context/CartContext.jsx';
 import ProductCard from './ui/ProductCard.jsx';
-import { allProducts } from '../data/products.js';
 
 const formatPrice = (price) => {
   return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(price);
@@ -28,15 +27,11 @@ const ShippingTag = ({ type, text }) => {
   );
 };
 
-export default function ProductDetail({ product }) {
+export default function ProductDetail({ product, relatedProducts = [] }) {
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
-
-  // Obtener productos relacionados (misma categoría, excluyendo el actual)
-  const relatedProducts = allProducts
-    .filter(p => p.category === product.category && p.id !== product.id)
-    .slice(0, 4);
+  const [activeImage, setActiveImage] = useState(product.image);
 
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {
@@ -50,16 +45,36 @@ export default function ProductDetail({ product }) {
   const discountPercent = product.oldPrice ? Math.round((discountAmount / product.oldPrice) * 100) : 0;
 
   return (
-    <div className="min-h-screen bg-[#080c14] text-slate-300 pt-28 pb-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#080c14] text-slate-300 pt-28 pb-20 relative overflow-hidden">
+      {/* ── SOPHISTICATED MESH BACKGROUND ── */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        {/* Animated Gradient Meshes */}
+        <div className="absolute top-[-10%] left-[-5%] w-[1000px] h-[1000px] bg-amber-500/10 rounded-full blur-[180px] animate-pulse-slow" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[1200px] h-[1200px] bg-blue-600/10 rounded-full blur-[200px] animate-float-slow" />
+        <div className="absolute top-[20%] right-[10%] w-[800px] h-[800px] bg-purple-600/5 rounded-full blur-[180px] opacity-40" />
+        
+        {/* Technical Grid Pattern */}
+        <div 
+          className="absolute inset-0 opacity-[0.03]" 
+          style={{ 
+            backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)', 
+            backgroundSize: '40px 40px' 
+          }} 
+        />
+        
+        {/* Radial Vignette */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#080c14_80%)] opacity-60" />
+      </div>
 
-        {/* ── Breadcrumb ── */}
-        <nav className="mb-10 flex items-center gap-2 text-sm">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+        {/* ── Breadcrumb GLASS ── */}
+        <nav className="mb-10 inline-flex items-center gap-3 px-6 py-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md text-sm">
           <a href="/" className="text-slate-500 hover:text-white transition-colors">Inicio</a>
           <span className="text-slate-700">/</span>
           <a href="/catalogo" className="text-slate-500 hover:text-white transition-colors">Catálogo</a>
           <span className="text-slate-700">/</span>
-          <span className="text-amber-400 font-bold">{product.title}</span>
+          <span className="text-amber-400 font-black tracking-wide uppercase text-[10px]">{product.title}</span>
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 mb-24">
@@ -70,10 +85,10 @@ export default function ProductDetail({ product }) {
             <div className="absolute -top-10 -left-10 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
             <div className="sticky top-32">
-              <div className="relative rounded-[2rem] overflow-hidden border border-white/10 bg-white/5 shadow-2xl group">
-                {product.image ? (
+              <div className="relative rounded-[2rem] overflow-hidden border border-white/10 bg-white/5 shadow-[0_0_50px_-12px_rgba(251,191,36,0.15)] group">
+                {activeImage ? (
                   <img
-                    src={product.image}
+                    src={activeImage}
                     alt={product.title}
                     className="w-full h-auto object-cover aspect-square transition-transform duration-700 group-hover:scale-105"
                   />
@@ -90,6 +105,24 @@ export default function ProductDetail({ product }) {
                   </div>
                 )}
               </div>
+
+              {/* Miniaturas Galería */}
+              {product.images && product.images.length > 1 && (
+                <div className="flex gap-4 mt-6 overflow-x-auto pb-2 scrollbar-hide">
+                  {product.images.map((img, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveImage(img)}
+                      className={`
+                        flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition-all
+                        ${activeImage === img ? 'border-amber-400 scale-105 shadow-lg shadow-amber-500/20' : 'border-white/10 opacity-60 hover:opacity-100'}
+                      `}
+                    >
+                      <img src={img} className="w-full h-full object-cover" />
+                    </button>
+                  ))}
+                </div>
+              )}
 
               {/* Trust markers bajo imagen */}
               <div className="grid grid-cols-3 gap-4 mt-8">
@@ -115,7 +148,7 @@ export default function ProductDetail({ product }) {
                 {product.subtitle || 'Gadget Premium'}
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-none mb-6">
+              <h1 className="text-5xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/70 leading-[1.1] mb-8 tracking-tighter">
                 {product.title}
               </h1>
 

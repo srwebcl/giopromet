@@ -6,10 +6,10 @@ import ProductDetail from './ProductDetail.jsx';
  * ProductDetailWithCart envuelve ProductDetail dentro de su propio CartProvider.
  * Necesario porque en Astro, cada isla client:load es un árbol React independiente.
  */
-export default function ProductDetailWithCart({ product }) {
+export default function ProductDetailWithCart({ product, relatedProducts }) {
   return (
     <CartProvider>
-      <ProductDetail product={product} />
+      <ProductDetail product={product} relatedProducts={relatedProducts} />
     </CartProvider>
   );
 }

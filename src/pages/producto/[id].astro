@@ -4,18 +4,26 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductDetailWithCart from '../../components/ProductDetailWithCart.jsx';
 
 export async function getStaticPaths() {
-  const products = getAllProducts();
-  return products.map(product => ({
-    params: { id: product.id },
-    props: { product }
-  }));
+  const allProducts = await getAllProducts();
+  return allProducts.map(product => {
+    // Obtener relacionados: misma categoría, excluyendo el actual
+    const relatedProducts = allProducts
+      .filter(p => p.category === product.category && p.id !== product.id)
+      .slice(0, 4);
+
+    return {
+      params: { id: product.id.toString() },
+      props: { product, relatedProducts }
+    };
+  });
 }
 
 interface Props {
   product: any;
+  relatedProducts: any[];
 }
 
-const { product } = Astro.props as Props;
+const { product, relatedProducts } = Astro.props as Props;
 
 if (!product) {
   return Astro.redirect('/');
@@ -23,5 +31,5 @@ if (!product) {
 ---
 
 <BaseLayout title={`${product.title} | Giopromet`} description={product.description}>
-  <ProductDetailWithCart client:load product={product} />
+  <ProductDetailWithCart client:load product={product} relatedProducts={relatedProducts} />
 </BaseLayout>

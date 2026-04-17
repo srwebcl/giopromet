@@ -5,7 +5,6 @@ import {
   Filter, Star, ArrowRight, Zap, CheckCircle2, Shield
 } from 'lucide-react';
 import { CartProvider, useCart } from '../context/CartContext.jsx';
-import { allProducts, CATEGORIES } from '../data/products.js';
 import ProductCard from './ui/ProductCard.jsx';
 
 const SORT_OPTIONS = [
@@ -22,7 +21,7 @@ const CATEGORY_ICONS = {
   gadgets:    <Sparkles className="w-4 h-4" />,
 };
 
-function CatalogContent() {
+function CatalogContent({ allProducts, categories }) {
   const { addToCart } = useCart();
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery]       = useState('');
@@ -61,7 +60,7 @@ function CatalogContent() {
 
   return (
     <div className="min-h-screen bg-[#080c14] text-slate-300 pb-20 overflow-x-hidden relative">
-      {/* ── Background decoration blobs (Like Home) ── */}
+      {/* --- Background decoration blobs (Like Home) --- */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-amber-500/10 rounded-full blur-[180px] opacity-60 pointer-events-none" />
         <div className="absolute top-[30%] left-[-15%] w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[160px] opacity-40 pointer-events-none" />
@@ -72,9 +71,9 @@ function CatalogContent() {
 
       <div className="relative z-10 pt-28">
         
-        {/* ══════════════════════════════════════════
+        {/* ==========================================
             PREMIUM FILTER BAR
-        ══════════════════════════════════════════ */}
+        ========================================== */}
         <div className={`sticky top-[60px] z-40 transition-all duration-500 ${scrolled ? 'py-2' : 'py-6'}`}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className={`
@@ -84,7 +83,7 @@ function CatalogContent() {
 
               {/* Categorías Desktop */}
               <div className="hidden lg:flex items-center gap-1.5 p-1 bg-black/20 rounded-2xl border border-white/5">
-                {CATEGORIES.map(cat => (
+                {categories?.map(cat => (
                   <button
                     key={cat.id}
                     onClick={() => setActiveCategory(cat.id)}
@@ -96,7 +95,7 @@ function CatalogContent() {
                       }
                     `}
                   >
-                    {CATEGORY_ICONS[cat.id]}
+                    {CATEGORY_ICONS[cat.id] || <Sparkles className="w-4 h-4" />}
                     {cat.label}
                   </button>
                 ))}
@@ -161,7 +160,7 @@ function CatalogContent() {
             {/* Mobile Filters Expanded */}
             <div className={`lg:hidden overflow-hidden transition-all duration-300 ${mobileFiltersOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'}`}>
                <div className="bg-[#0d1220] border border-white/10 rounded-3xl p-4 mt-4 grid grid-cols-2 gap-2">
-                  {CATEGORIES.map(cat => (
+                  {categories?.map(cat => (
                     <button
                       key={cat.id}
                       onClick={() => { setActiveCategory(cat.id); setMobileFiltersOpen(false); }}
@@ -169,7 +168,7 @@ function CatalogContent() {
                         activeCategory === cat.id ? 'bg-amber-400 text-slate-900' : 'bg-white/5 text-slate-500 border border-white/5'
                       }`}
                     >
-                      {CATEGORY_ICONS[cat.id]}
+                      {CATEGORY_ICONS[cat.id] || <Sparkles className="w-4 h-4" />}
                       {cat.label}
                     </button>
                   ))}
@@ -178,9 +177,9 @@ function CatalogContent() {
           </div>
         </div>
 
-        {/* ══════════════════════════════════════════
+        {/* ==========================================
             RESULTADOS GRID
-        ══════════════════════════════════════════ */}
+        ========================================== */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 sm:mt-10">
 
           {/* Info de búsqueda */}
@@ -195,7 +194,7 @@ function CatalogContent() {
                   </span>
                   {activeCategory !== 'all' && (
                     <span className="text-xs font-black text-amber-500 uppercase tracking-widest">
-                      Categoría: {CATEGORIES.find(c => c.id === activeCategory)?.label}
+                      Categoría: {categories?.find(c => c.id === activeCategory)?.label}
                     </span>
                   )}
                 </div>
@@ -238,7 +237,7 @@ function CatalogContent() {
           )}
         </div>
 
-        {/* ── CTA Final de Confianza ── */}
+        {/* --- CTA Final de Confianza --- */}
         <div className="max-w-4xl mx-auto px-4 mt-20 mb-32 relative z-10">
           <div className="bg-gradient-to-br from-white/10 to-transparent backdrop-blur-3xl border border-white/10 rounded-[3rem] p-8 sm:p-12 text-center relative overflow-hidden shadow-2xl">
              <div className="absolute top-0 left-0 w-32 h-32 bg-amber-400/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
@@ -264,10 +263,10 @@ function CatalogContent() {
   );
 }
 
-export default function CatalogPage() {
+export default function CatalogPage({ allProducts, categories }) {
   return (
     <CartProvider>
-      <CatalogContent />
+      <CatalogContent allProducts={allProducts} categories={categories} />
     </CartProvider>
   );
 }

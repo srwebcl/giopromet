@@ -63,6 +63,21 @@ export function CartProvider({ children }) {
   const cartTotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
+  const checkoutUrl = () => {
+    if (cartItems.length === 0) return '/';
+    
+    // URL base de WooCommerce
+    const baseUrl = import.meta.env.WC_URL || 'https://admin.giopromet.cl';
+    
+    // Si solo hay un producto, usamos el parámetro de auto-compra
+    if (cartItems.length === 1) {
+      return `${baseUrl}/finalizar-compra/?add-to-cart=${cartItems[0].id}&quantity=${cartItems[0].quantity}`;
+    }
+    
+    // Para múltiples productos o fallback, enviamos al carrito de WooCommerce
+    return `${baseUrl}/carrito/`;
+  };
+
   const value = {
     cartItems,
     cartTotal,
@@ -71,7 +86,8 @@ export function CartProvider({ children }) {
     removeItem,
     updateQuantity,
     clearCart,
-    isHydrated
+    isHydrated,
+    checkoutUrl
   };
 
   return (

@@ -1,11 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CatalogPage from '../components/CatalogPage.jsx';
+import { getAllProducts, getCategories } from '../data/products.js';
+
+const allProducts = await getAllProducts();
+const categories = await getCategories();
 ---
 
 <BaseLayout
   title="Catálogo de Productos | Giopromet"
   description="Explora todos nuestros gadgets y tecnología. Filtra por categoría, busca y encuentra el producto perfecto al mejor precio."
 >
-  <CatalogPage client:load />
+  <CatalogPage client:load allProducts={allProducts} categories={categories} />
 </BaseLayout>
