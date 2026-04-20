@@ -14,9 +14,9 @@ const finalHeroProducts = heroProducts.length > 0
   ? heroProducts 
   : [allProducts.find(p => p.featured) || allProducts[0]];
 
-const trendingProducts = allProducts.filter(p => p.categorySlugs?.includes('tendencias')).slice(0, 2);
-const viralProducts = allProducts.filter(p => p.categorySlugs?.includes('virales')).slice(0, 2);
-const complementaryProducts = allProducts.filter(p => p.categorySlugs?.includes('gadgets') || p.categorySlugs?.includes('general')).slice(0, 2);
+const trendingProducts = allProducts.filter(p => p.categorySlugs?.includes('tendencias')).slice(0, 8);
+const viralProducts = allProducts.filter(p => p.categorySlugs?.includes('virales')).slice(0, 8);
+const complementaryProducts = allProducts.filter(p => p.categorySlugs?.includes('gadgets') || p.categorySlugs?.includes('general')).slice(0, 8);
 ---
 
 <BaseLayout>

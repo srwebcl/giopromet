@@ -329,7 +329,7 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
             title="🔥 Productos en Tendencia"
             subtitle="Gadgets llamativos que generan curiosidad y mejoran tu día a día."
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
             {trendingProducts.map((product) => (
               <ProductCard key={product.id} product={product} onAddToCart={addToCart} />
             ))}
@@ -351,7 +351,7 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
             title="🚀 Productos Virales"
             subtitle="Los favoritos indiscutibles que todos están comprando esta semana."
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
             {viralProducts.map((product) => (
               <ProductCard key={product.id} product={product} onAddToCart={addToCart} />
             ))}
@@ -374,7 +374,7 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
             title="✨ Gadgets Complementarios"
             subtitle="Tecnología útil para tu día a día. Importación directa, precios únicos."
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
             {complementaryProducts.map((product) => (
               <ProductCard key={product.id} product={product} onAddToCart={addToCart} />
             ))}
