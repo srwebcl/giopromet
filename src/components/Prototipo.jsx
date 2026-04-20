@@ -183,7 +183,7 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
         <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)', backgroundSize: '36px 36px' }} />
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20 pb-16 lg:pt-24 lg:pb-14">
-          <div className="flex flex-col lg:grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div className="flex flex-col lg:grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-16 items-center">
 
             {/* ── Título Mobile (Solo visible en < lg) ── */}
             <div 
@@ -196,9 +196,9 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
                   {currentHero.subtitle || '⭐ PRODUCTO DESTACADO'}
                 </div>
               </div>
-              <h1 className="leading-none tracking-tight">
-                <span className="block text-4xl font-light text-white/90 mb-1">{currentHero.title.split(' ').slice(0, 1).join(' ')}</span>
-                <span className="block text-shimmer text-4xl font-black">{currentHero.title.split(' ').slice(1).join(' ')}</span>
+              <h1 className="tracking-tight overflow-visible">
+                <span className="block text-2xl font-light text-white/90 mb-1 leading-relaxed py-1">{currentHero.title.split(' ').slice(0, 1).join(' ')}</span>
+                <span className="block text-shimmer text-3xl font-black leading-relaxed py-1">{currentHero.title.split(' ').slice(1).join(' ')}</span>
               </h1>
             </div>
 
@@ -238,15 +238,16 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
                     {currentHero.subtitle || '⭐ PRODUCTO DESTACADO'}
                   </div>
                 </div>
-                <h1 id="hero" className="leading-none tracking-tight">
-                  <span className="block text-4xl sm:text-5xl lg:text-6xl font-light text-white/90 mb-1">{currentHero.title.split(' ').slice(0, 1).join(' ')}</span>
-                  <span className="block text-shimmer text-4xl sm:text-5xl lg:text-6xl font-black whitespace-nowrap">{currentHero.title.split(' ').slice(1).join(' ')}</span>
+                <h1 id="hero" className="tracking-tighter max-w-2xl overflow-visible">
+                  <span className="block text-3xl sm:text-4xl font-light text-white/90 mb-2 leading-relaxed py-1">{currentHero.title.split(' ').slice(0, 1).join(' ')}</span>
+                  <span className="block text-shimmer text-4xl sm:text-5xl lg:text-6xl font-black leading-relaxed py-1">{currentHero.title.split(' ').slice(1).join(' ')}</span>
                 </h1>
               </div>
 
-              <p className="text-slate-300 text-base sm:text-xl leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium">
-                {currentHero.description}
-              </p>
+               <div 
+                className="text-slate-300 text-base sm:text-xl leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium [&_p]:mb-0 [&_span]:block"
+                dangerouslySetInnerHTML={{ __html: currentHero.description }}
+              />
 
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-w-xl mx-auto lg:mx-0 text-left">
                 {currentHero.features.slice(0, 4).map((f, i) => (

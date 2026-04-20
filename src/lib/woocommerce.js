@@ -60,8 +60,8 @@ function mapProduct(wcProduct) {
     categorySlugs: wcProduct.categories?.map(cat => cat.slug) || [],
     title: wcProduct.name,
     subtitle: getMeta('_gp_subtitle') || 'Gadget Premium',
-    description: wcProduct.short_description.replace(/<[^>]*>?/gm, ''), // Limpiar HTML
-    fullDescription: wcProduct.description.replace(/<[^>]*>?/gm, ''),
+    description: wcProduct.short_description,
+    fullDescription: wcProduct.description,
     features: wcProduct.attributes?.map(attr => `${attr.name}: ${attr.options.join(', ')}`) || [],
     price: parseInt(wcProduct.price) || 0,
     oldPrice: parseInt(wcProduct.regular_price) || 0,
