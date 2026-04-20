@@ -6,19 +6,23 @@ import { getAllProducts } from '../data/products.js';
 const allProducts = await getAllProducts();
 
 // Seleccionar productos para las secciones
-// 1. Prioridad: Productos marcados con la "Estrella" (featured) en WordPress
-// 2. Segunda opción: Categoría "tendencias"
-const heroProduct = allProducts.find(p => p.featured) || allProducts.find(p => p.category === 'tendencias') || allProducts[0];
+// 1. Hero: Productos con categoría "heroe"
+const heroProducts = allProducts.filter(p => p.categorySlugs?.includes('heroe'));
 
-const trendingProducts = allProducts.filter(p => p.category === 'tendencias').slice(0, 2);
-const viralProducts = allProducts.filter(p => p.category === 'virales').slice(0, 2);
-const complementaryProducts = allProducts.filter(p => p.category === 'gadgets' || p.category === 'general').slice(0, 2);
+// Fallback si no hay productos "heroe"
+const finalHeroProducts = heroProducts.length > 0 
+  ? heroProducts 
+  : [allProducts.find(p => p.featured) || allProducts[0]];
+
+const trendingProducts = allProducts.filter(p => p.categorySlugs?.includes('tendencias')).slice(0, 2);
+const viralProducts = allProducts.filter(p => p.categorySlugs?.includes('virales')).slice(0, 2);
+const complementaryProducts = allProducts.filter(p => p.categorySlugs?.includes('gadgets') || p.categorySlugs?.includes('general')).slice(0, 2);
 ---
 
 <BaseLayout>
   <Prototipo 
     client:load 
-    heroProduct={heroProduct}
+    heroProducts={finalHeroProducts}
     trendingProducts={trendingProducts}
     viralProducts={viralProducts}
     complementaryProducts={complementaryProducts}

@@ -6,6 +6,7 @@ const staticProducts = [
     id: 'p1',
     category: 'tendencias',
     categoryLabel: 'Tendencias',
+    categorySlugs: ['tendencias', 'heroe'],
     title: '🧠 Masajeador Cervical Inteligente',
     subtitle: '⭐ PRODUCTO DESTACADO',
     description: 'Dile adiós al dolor de cuello en minutos. Tecnología TENS de pulso de baja frecuencia que alivia la fatiga.',
@@ -29,6 +30,7 @@ const staticProducts = [
     id: 'p2',
     category: 'tendencias',
     categoryLabel: 'Tendencias',
+    categorySlugs: ['tendencias'],
     title: '🖨️ Mini Impresora Térmica Portátil',
     description: 'Imprime donde quieras. Compacta y rápida.',
     fullDescription: 'Impresora térmica portátil perfecta para documentos, fotos y etiquetas. Conectividad Bluetooth y USB. Ideal para viajes y trabajo remoto.',
@@ -53,7 +55,7 @@ export async function getAllProducts() {
     const products = await wc.getAllProducts();
     if (products && products.length > 0) return products;
   } catch (e) {
-    console.warn('⚠️ Fallo de conexión con WooCommerce (getAllProducts), usando estático.');
+    console.warn('⚠️ Fallo de conexión con WooCommerce (getAllProducts), usando estático.', e);
   }
   return staticProducts;
 }
@@ -63,7 +65,7 @@ export async function getProductById(id) {
     const product = await wc.getProductById(id);
     if (product) return product;
   } catch (e) {
-    console.warn(`⚠️ Error al obtener producto ${id} de WC, buscando en estático.`);
+    console.warn(`⚠️ Error al obtener producto ${id} de WC, buscando en estático.`, e);
   }
   const all = await getAllProducts();
   return all.find(p => p.id === id.toString());
@@ -72,12 +74,13 @@ export async function getProductById(id) {
 export async function getProductsByCategory(category) {
   const all = await getAllProducts();
   if (category === 'all') return all;
-  return all.filter(product => product.category === category);
+  return all.filter(product => product.categorySlugs?.includes(category));
 }
 
 // --- Categorías disponibles --------------------------------
 const staticCategories = [
   { id: 'all',        label: 'Todos',       emoji: '🛍️' },
+  { id: 'heroe',      label: 'Heroe',       emoji: '⭐' },
   { id: 'tendencias', label: 'Tendencias',  emoji: '🔥' },
   { id: 'virales',    label: 'Virales',     emoji: '🚀' },
   { id: 'gadgets',    label: 'Gadgets',     emoji: '✨' },

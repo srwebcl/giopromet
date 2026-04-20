@@ -82,12 +82,11 @@ export default function ProductCard({ product, onAddToCart, dark = false }) {
           </h3>
         </a>
 
-        {/* Rating mock */}
         <div className="flex items-center gap-1.5">
           {[...Array(5)].map((_, i) => (
             <Star key={i} className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
           ))}
-          <span className="text-slate-400 text-xs ml-1">(4.9)</span>
+          <span className="text-slate-400 text-xs ml-1">({product.stats?.rating || '4.9'})</span>
         </div>
 
         {/* Precio */}
