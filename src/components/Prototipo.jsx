@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import {
   Zap, CheckCircle2, Truck, Globe, ArrowRight, Plane,
   ShoppingCart, Star, Shield, Clock, Users,
-  Sparkles, TrendingUp, Rocket, Package
+  Sparkles, TrendingUp, Rocket, Package,
+  ChevronLeft, ChevronRight
 } from 'lucide-react';
 import { CartProvider, useCart } from '../context/CartContext.jsx';
 import Button from './ui/Button.jsx';
@@ -111,14 +112,127 @@ function ReviewCard({ name, location, text, avatar, delay }) {
   );
 }
 
+/* ─── Flexible Product List / Carousel ─── */
+function FlexibleProductList({ products, onAddToCart }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const scrollRef = React.useRef(null);
+  const count = products.length;
+
+  if (count === 0) return null;
+
+  // Sincronizar el dot activo con el scroll
+  const handleScroll = (e) => {
+    const scrollPos = e.target.scrollLeft;
+    const containerWidth = e.target.offsetWidth;
+    const itemsVisible = window.innerWidth >= 1024 ? 3 : (window.innerWidth >= 768 ? 2 : 1);
+    const itemWidth = containerWidth / itemsVisible;
+    const index = Math.round(scrollPos / itemWidth);
+    if (index !== activeIndex && index >= 0 && index < count) setActiveIndex(index);
+  };
+
+  const scrollTo = (index) => {
+    if (scrollRef.current) {
+      const itemWidth = scrollRef.current.querySelector('.product-item')?.offsetWidth || 340;
+      const gap = 24; // gap-6
+      scrollRef.current.scrollTo({
+        left: index * (itemWidth + gap),
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  // 1 Producto: Centrado
+  if (count === 1) {
+    return (
+      <div className="flex justify-center py-4 px-4">
+        <div className="w-full max-w-sm sm:max-w-md">
+          <ProductCard product={products[0]} onAddToCart={onAddToCart} />
+        </div>
+      </div>
+    );
+  }
+
+  // 2 Productos: Balanceado
+  if (count === 2) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto px-4">
+        {products.map((p) => (
+          <div key={p.id} className="flex h-full">
+            <ProductCard product={p} onAddToCart={onAddToCart} />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  // 3 Productos: Fijos en Desktop (Grid)
+  if (count === 3) {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto px-4">
+        {products.map((p) => (
+          <div key={p.id} className="flex h-full">
+            <ProductCard product={p} onAddToCart={onAddToCart} />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  // Carrusel para 4 o más (Muestra 3 en Desktop)
+  return (
+    <div className="relative w-full max-w-7xl mx-auto px-4 lg:px-0">
+      {/* Flechas Fuera del carrusel (Solo Desktop) */}
+      <button 
+        onClick={() => scrollTo(Math.max(0, activeIndex - 1))}
+        className="hidden xl:flex absolute left-[-80px] top-1/2 -translate-y-1/2 w-14 h-14 bg-slate-900/80 hover:bg-amber-400 hover:text-slate-900 border border-white/10 items-center justify-center rounded-full text-white shadow-2xl z-20 transition-all active:scale-95"
+      >
+        <ChevronLeft className="w-8 h-8" />
+      </button>
+      <button 
+        onClick={() => scrollTo(Math.min(count - 1, activeIndex + 1))}
+        className="hidden xl:flex absolute right-[-80px] top-1/2 -translate-y-1/2 w-14 h-14 bg-slate-900/80 hover:bg-amber-400 hover:text-slate-900 border border-white/10 items-center justify-center rounded-full text-white shadow-2xl z-20 transition-all active:scale-95"
+      >
+        <ChevronRight className="w-8 h-8" />
+      </button>
+
+      {/* Contenedor con Clipping Estricto */}
+      <div className="relative overflow-hidden group">
+        <div 
+          ref={scrollRef}
+          onScroll={handleScroll}
+          className="flex gap-6 overflow-x-auto pb-12 pt-4 scrollbar-hide snap-x snap-mandatory"
+          style={{ scrollBehavior: 'smooth' }}
+        >
+          {products.map((p) => (
+            <div 
+              key={p.id} 
+              className="product-item min-w-[280px] sm:min-w-[340px] lg:min-w-[calc((100%/3)-(16px))] snap-center lg:snap-start transition-opacity duration-300 flex h-full"
+            >
+              <ProductCard product={p} onAddToCart={onAddToCart} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Dots Tradicionales */}
+      <div className="flex justify-center gap-3 mt-2">
+        {products.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => scrollTo(i)}
+            className={`h-2.5 rounded-full transition-all duration-300 ${i === activeIndex ? 'w-10 bg-amber-400' : 'w-2.5 bg-white/10 hover:bg-white/30'}`}
+            aria-label={`Ir al producto ${i + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* ==============================================================
    CONTENIDO PRINCIPAL
-   Recibe los productos desde la página de Astro para SSG/SSR
 ============================================================== */
-/* ==============================================================
-   CONTENIDO PRINCIPAL
-   Recibe los productos desde la página de Astro para SSG/SSR
- ============================================================== */
+
 function AppContent({ heroProducts = [], trendingProducts, viralProducts, complementaryProducts }) {
   const { addToCart } = useCart();
   const [added, setAdded] = useState(false);
@@ -330,11 +444,7 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
             title="🔥 Productos en Tendencia"
             subtitle="Gadgets llamativos que generan curiosidad y mejoran tu día a día."
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
-            {trendingProducts.map((product) => (
-              <ProductCard key={product.id} product={product} onAddToCart={addToCart} />
-            ))}
-          </div>
+          <FlexibleProductList products={trendingProducts} onAddToCart={addToCart} />
         </div>
       </section>
 
@@ -352,11 +462,7 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
             title="🚀 Productos Virales"
             subtitle="Los favoritos indiscutibles que todos están comprando esta semana."
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
-            {viralProducts.map((product) => (
-              <ProductCard key={product.id} product={product} onAddToCart={addToCart} />
-            ))}
-          </div>
+          <FlexibleProductList products={viralProducts} onAddToCart={addToCart} />
         </div>
       </section>
 
@@ -375,11 +481,7 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
             title="✨ Gadgets Complementarios"
             subtitle="Tecnología útil para tu día a día. Importación directa, precios únicos."
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
-            {complementaryProducts.map((product) => (
-              <ProductCard key={product.id} product={product} onAddToCart={addToCart} />
-            ))}
-          </div>
+          <FlexibleProductList products={complementaryProducts} onAddToCart={addToCart} />
         </div>
       </section>
 

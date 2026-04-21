@@ -36,7 +36,7 @@ export default function ProductCard({ product, onAddToCart, dark = false }) {
     : null;
 
   return (
-    <div className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl overflow-hidden flex flex-col hover:border-amber-400/40 hover:bg-white/8 transition-all duration-400 hover:-translate-y-2 hover:shadow-2xl hover:shadow-amber-500/10">
+    <div className="group relative w-full h-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl overflow-hidden flex flex-col hover:border-amber-400/40 hover:bg-white/8 transition-all duration-400 hover:-translate-y-2 hover:shadow-2xl hover:shadow-amber-500/10">
 
       {/* ── Imagen ── */}
       <a href={`/producto/${product.id}`} className="relative block h-56 lg:h-64 overflow-hidden bg-gradient-to-br from-slate-800 to-slate-700 flex-shrink-0">
