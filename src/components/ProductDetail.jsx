@@ -59,46 +59,32 @@ export default function ProductDetail({ product, relatedProducts = [] }) {
           <span className="text-slate-400 truncate max-w-[100px]">{product.title}</span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 mb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-16">
           
-          {/* ════ GALERÍA ════ */}
-          <div className="lg:col-span-7 space-y-4">
-            <div className="relative rounded-[2rem] overflow-hidden bg-slate-900/40 border border-white/5 shadow-xl aspect-square flex items-center justify-center p-4">
+          {/* ════ GALERÍA (Sin Miniaturas por petición) ════ */}
+          <div className="lg:col-span-7">
+            <div className="relative group rounded-[3rem] overflow-hidden bg-slate-900/60 border border-white/5 shadow-2xl aspect-square flex items-center justify-center p-6 lg:p-12 transition-all duration-500">
               {activeImage ? (
-                <img src={activeImage} alt={product.title} className="max-w-full max-h-full object-contain" />
+                <img src={activeImage} alt={product.title} className="max-w-full max-h-full object-contain transition-transform duration-700 group-hover:scale-105" />
               ) : (
                 <div className="italic text-slate-600">Sin imagen</div>
               )}
               
               {discountPercent > 0 && (
-                <div className="absolute top-4 left-4 bg-red-600 text-white text-[10px] font-black px-3 py-1 rounded-lg">
-                  -{discountPercent}%
+                <div className="absolute top-6 left-6 bg-red-600 text-white text-[11px] font-black px-4 py-2 rounded-2xl shadow-xl">
+                  -{discountPercent}% OFF
                 </div>
               )}
-              <div className="absolute top-4 right-4 flex gap-2">
-                <button className="w-9 h-9 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center text-white"><HeartIcon className="w-4 h-4" /></button>
-                <button className="w-9 h-9 rounded-xl bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center text-white"><Share2Icon className="w-4 h-4" /></button>
+              <div className="absolute top-6 right-6 flex flex-col gap-3">
+                <button className="w-11 h-11 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white hover:bg-amber-400 hover:text-slate-900 transition-all"><HeartIcon className="w-5 h-5" /></button>
+                <button className="w-11 h-11 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 flex items-center justify-center text-white hover:bg-amber-400 hover:text-slate-900 transition-all"><Share2Icon className="w-5 h-5" /></button>
               </div>
             </div>
-
-            {product.images && product.images.length > 1 && (
-              <div className="flex justify-center gap-3 overflow-x-auto pb-2">
-                {product.images.map((img, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setActiveImage(img)}
-                    className={`flex-shrink-0 w-16 h-16 rounded-2xl overflow-hidden border-2 transition-all p-0.5 ${activeImage === img ? 'border-amber-400 opacity-100' : 'border-transparent opacity-40'}`}
-                  >
-                    <img src={img} className="w-full h-full object-cover rounded-xl" />
-                  </button>
-                ))}
-              </div>
-            )}
           </div>
 
-          {/* ════ INFO & COMPRA ════ */}
-          <div className="lg:col-span-5">
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-6 lg:p-10 shadow-2xl flex flex-col text-center lg:text-left h-full">
+          {/* ════ INFO & COMPRA (Tarjeta Compacta) ════ */}
+          <div className="lg:col-span-5 h-fit">
+            <div className="bg-white/5 backdrop-blur-3xl border border-white/10 rounded-[3rem] p-8 lg:p-10 shadow-2xl flex flex-col text-center lg:text-left">
               
               <div className="flex justify-center lg:justify-start mb-4">
                 <div className="inline-flex items-center gap-1.5 bg-amber-400/10 text-amber-300 text-[9px] font-black px-3 py-1 rounded-full border border-amber-400/10 uppercase tracking-widest">
@@ -113,50 +99,57 @@ export default function ProductDetail({ product, relatedProducts = [] }) {
 
               <div className="flex flex-col lg:flex-row items-center gap-3 mb-6">
                 <div className="flex items-center gap-1 text-amber-400">
-                  <StarIcon className="w-3.5 h-3.5 fill-current" />
-                  <StarIcon className="w-3.5 h-3.5 fill-current" />
-                  <StarIcon className="w-3.5 h-3.5 fill-current" />
-                  <StarIcon className="w-3.5 h-3.5 fill-current" />
-                  <StarIcon className="w-3.5 h-3.5 fill-current" />
-                  <span className="ml-1 text-xs font-black">4.9</span>
+                  {[...Array(5)].map((_, i) => <StarIcon key={i} className="w-3.5 h-3.5 fill-current" />)}
+                  <span className="ml-1 text-xs font-black text-white">4.9 / 5.0</span>
                 </div>
                 <ShippingTag type={product.shipping.type} text={product.shipping.text} />
               </div>
 
-              <div className="flex flex-col items-center lg:items-start gap-1 mb-8">
+              <div className="flex flex-col items-center lg:items-start gap-1 mb-6">
                 <div className="flex items-center gap-3">
-                  <span className="text-4xl font-black text-white">{formatPrice(product.price)}</span>
+                  <span className="text-4xl lg:text-5xl font-black text-white">{formatPrice(product.price)}</span>
                   {product.oldPrice && (
                     <span className="text-slate-500 text-lg line-through font-bold opacity-50">{formatPrice(product.oldPrice)}</span>
                   )}
                 </div>
+                {product.oldPrice && (
+                  <span className="text-green-400 text-[10px] font-black uppercase tracking-wider">Ahorras {formatPrice(discountAmount)}</span>
+                )}
               </div>
 
-              <div className="space-y-4 mb-8">
-                <div className="flex items-center justify-between bg-slate-900/50 border border-white/5 p-2 rounded-2xl">
-                  <span className="pl-2 text-[10px] font-black text-slate-500 uppercase">Cantidad</span>
-                  <div className="flex items-center">
-                    <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-white/5 text-slate-400"><MinusIcon className="w-4 h-4" /></button>
+              {product.description && (
+                <div 
+                  className="text-slate-400 text-sm leading-relaxed mb-8 prose prose-invert prose-sm max-w-none text-center lg:text-left [&_p]:mb-0 line-clamp-3"
+                  dangerouslySetInnerHTML={{ __html: product.description }}
+                />
+              )}
+
+              {/* Contenedor de Compra Sin márgenes innecesarios */}
+              <div className="space-y-4 mb-6">
+                <div className="grid grid-cols-12 gap-3">
+                  <div className="col-span-4 flex items-center bg-slate-900 border border-white/10 rounded-2xl p-1">
+                    <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-full h-10 flex items-center justify-center rounded-xl hover:bg-white/5 text-slate-400 transition-all"><MinusIcon className="w-4 h-4" /></button>
                     <span className="w-8 text-center font-black text-white">{quantity}</span>
-                    <button onClick={() => setQuantity(quantity + 1)} className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-white/5 text-slate-400"><PlusIcon className="w-4 h-4" /></button>
+                    <button onClick={() => setQuantity(quantity + 1)} className="w-full h-10 flex items-center justify-center rounded-xl hover:bg-white/5 text-slate-400 transition-all"><PlusIcon className="w-4 h-4" /></button>
                   </div>
+                  
+                  <button
+                    onClick={handleAddToCart}
+                    className={`col-span-8 h-12 lg:h-14 flex items-center justify-center gap-2 rounded-2xl text-xs lg:text-sm font-black tracking-wide transition-all shadow-xl active:scale-95 ${isAdded ? 'bg-green-600' : 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 shadow-amber-500/20'}`}
+                  >
+                    {isAdded ? <CheckIcon className="w-5 h-5" /> : <ShoppingCartIcon className="w-5 h-5" />}
+                    {isAdded ? 'AÑADIDO' : 'AÑADIR AL CARRITO'}
+                  </button>
                 </div>
-                
-                <button
-                  onClick={handleAddToCart}
-                  className={`w-full h-14 flex items-center justify-center gap-2 rounded-2xl text-sm font-black tracking-wide transition-all shadow-xl ${isAdded ? 'bg-green-600 text-white' : 'bg-amber-400 text-slate-900 active:scale-95'}`}
-                >
-                  {isAdded ? <CheckIcon className="w-5 h-5" /> : <ShoppingCartIcon className="w-5 h-5" />}
-                  {isAdded ? 'AÑADIDO' : 'AÑADIR AL CARRITO'}
-                </button>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 mt-auto">
+              {/* Grid de confianza ajustado (Sin espacio gigante) */}
+              <div className="grid grid-cols-2 gap-2">
                 {[
                   { icon: <ShieldIcon className="w-3.5 h-3.5 text-green-500" />, label: 'Pago Seguro' },
                   { icon: <TruckIcon className="w-3.5 h-3.5 text-amber-400" />, label: 'Envío Rápido' },
                 ].map((item, i) => (
-                  <div key={i} className="flex items-center justify-center gap-2 bg-white/5 border border-white/5 py-2.5 rounded-xl text-[9px] font-black uppercase text-slate-400">
+                  <div key={i} className="flex items-center justify-center gap-2 bg-white/5 border border-white/5 py-3 rounded-2xl text-[9px] font-black uppercase text-slate-400">
                     {item.icon} {item.label}
                   </div>
                 ))}
@@ -168,41 +161,35 @@ export default function ProductDetail({ product, relatedProducts = [] }) {
         {/* ════ DESCRIPCIÓN ════ */}
         <div className="mb-8">
           <div className="text-center mb-8">
-            <h2 className="text-xl font-black text-white uppercase tracking-tight">Descripción del producto</h2>
+            <h2 className="text-xl font-black text-white uppercase tracking-tight">Descripción detallada</h2>
             <div className="w-10 h-1 bg-amber-400 mx-auto mt-2 rounded-full" />
           </div>
           
-          <div className="bg-[#0d121c] border border-white/5 rounded-[2rem] p-6 lg:p-12 shadow-inner mb-12">
-            <div 
-              className="prose prose-invert prose-sm max-w-none text-slate-400 leading-relaxed [&_p]:mb-4 [&_strong]:text-white [&_ul]:list-disc [&_ul]:pl-5"
-              dangerouslySetInnerHTML={{ __html: product.fullDescription || product.description }}
+          <div className="bg-[#0b0f16] border border-white/5 rounded-[3rem] p-6 lg:p-16 shadow-inner mb-12 relative overflow-hidden">
+             <div 
+              className="relative z-10 prose prose-invert prose-sm lg:prose-base max-w-none text-slate-400 leading-relaxed font-medium 
+                [&_p]:mb-6 [&_strong]:text-white [&_strong]:font-black [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-2 [&_h2]:text-white [&_h2]:text-2xl [&_h2]:font-black [&_h2]:mb-6 [&_h2]:mt-10"
+              dangerouslySetInnerHTML={{ __html: product.fullDescription }}
             />
 
-            {/* SEGUNDO CTA: EL "BOOST" DE CONVERSIÓN FINAL */}
-            <div className="mt-16 pt-12 border-t border-white/5">
-              <div className="flex flex-col items-center text-center gap-6">
-                <div className="w-16 h-16 bg-amber-400/10 rounded-3xl flex items-center justify-center animate-bounce">
-                  <ThumbsUpIcon className="w-8 h-8 text-amber-400" />
-                </div>
+            <div className="mt-16 pt-12 border-t border-white/10 text-center">
+              <div className="flex flex-col items-center gap-6">
+                <div className="w-16 h-16 bg-amber-400/10 rounded-3xl flex items-center justify-center "><ThumbsUpIcon className="w-8 h-8 text-amber-400" /></div>
                 <div className="space-y-2">
-                  <h3 className="text-xl font-black text-white uppercase">¿Convencido?</h3>
-                  <p className="text-slate-500 text-sm font-medium max-w-xs mx-auto">Únete a los más de 1,500 clientes que ya disfrutan de esta tecnología.</p>
+                  <h3 className="text-2xl font-black text-white uppercase">¿Ya te decidiste?</h3>
+                  <p className="text-slate-500 text-sm max-w-xs mx-auto">Calidad premium con garantía oficial. ¡No esperes más!</p>
                 </div>
                 
-                <div className="flex flex-col gap-3 w-full max-w-sm">
-                  <div className="text-center">
-                    <span className="text-3xl font-black text-white">{formatPrice(product.price)}</span>
-                  </div>
+                <div className="w-full max-w-sm flex flex-col gap-4">
+                  <span className="text-3xl font-black text-white">{formatPrice(product.price)}</span>
                   <button
                     onClick={handleAddToCart}
-                    className={`w-full h-16 flex items-center justify-center gap-3 rounded-2xl text-lg font-black tracking-wide transition-all shadow-2xl ${isAdded ? 'bg-green-600 text-white' : 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 hover:scale-[1.02] active:scale-[0.98]'}`}
+                    className={`w-full h-16 flex items-center justify-center gap-3 rounded-2xl text-lg font-black tracking-wide transition-all shadow-2xl ${isAdded ? 'bg-green-600 text-white' : 'bg-gradient-to-r from-amber-400 to-amber-500 text-slate-900 shadow-amber-500/30'}`}
                   >
                     {isAdded ? <CheckIcon className="w-6 h-6" /> : <ShoppingCartIcon className="w-6 h-6" />}
                     {isAdded ? '¡LO QUIERO!' : '¡LO QUIERO AHORA!'}
                   </button>
-                  <p className="text-[10px] text-slate-500 uppercase font-black tracking-widest mt-2 flex items-center justify-center gap-2">
-                    <ShieldIcon className="w-3 h-3" /> Transacción 100% Protegida
-                  </p>
+                  <p className="text-[10px] text-slate-500 uppercase font-black flex items-center justify-center gap-2 mt-2"><ShieldIcon className="w-3 h-3 text-green-500" /> Compra 100% Protegida</p>
                 </div>
               </div>
             </div>
@@ -211,8 +198,8 @@ export default function ProductDetail({ product, relatedProducts = [] }) {
 
         {/* ════ RELACIONADOS ════ */}
         {relatedProducts.length > 0 && (
-          <div className="pt-12 border-t border-white/5">
-            <h2 className="text-xl font-black text-white text-center mb-8 uppercase tracking-tight">También te puede gustar</h2>
+          <div className="pt-12 border-t border-white/5 text-center">
+            <h2 className="text-2xl font-black text-white mb-10 uppercase tracking-tight">Vistos recientemente</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {relatedProducts.map(rp => (
                 <ProductCard key={rp.id} product={rp} onAddToCart={addToCart} />
