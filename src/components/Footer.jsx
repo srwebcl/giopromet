@@ -13,7 +13,7 @@ export default function Footer() {
           {/* Marca */}
           <div className="md:col-span-1">
             <div className="mb-6">
-              <img src="/logo.png" alt="Giopromet" className="h-12 w-auto object-contain mix-blend-screen" />
+              <img src="/logo.webp" alt="Giopromet" className="h-12 w-auto object-contain" />
             </div>
             <p className="text-slate-500 text-sm leading-relaxed mb-5">
               Los gadgets más innovadores al mejor precio. Tecnología que transforma tu vida.
