@@ -12,11 +12,8 @@ export default function Footer() {
 
           {/* Marca */}
           <div className="md:col-span-1">
-            <div className="flex items-center gap-2 font-extrabold text-2xl text-white tracking-tight mb-4">
-              <div className="w-8 h-8 bg-amber-400 rounded-lg flex items-center justify-center">
-                <Zap className="w-5 h-5 text-slate-900" />
-              </div>
-              GIOPROMET
+            <div className="mb-4">
+              <img src="/logo.png" alt="Giopromet" className="h-10 w-auto" />
             </div>
             <p className="text-slate-500 text-sm leading-relaxed mb-5">
               Los gadgets más innovadores al mejor precio. Tecnología que transforma tu vida.

@@ -58,11 +58,8 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center relative z-[110]">
         {/* Logo */}
-        <a href="/" onClick={() => setMenuOpen(false)} className="flex items-center gap-2.5 font-extrabold text-xl text-white tracking-tight hover:opacity-85 transition-opacity flex-shrink-0">
-          <div className="w-8 h-8 bg-amber-400 rounded-lg flex items-center justify-center shadow-lg shadow-amber-500/30">
-            <Zap className="w-5 h-5 text-slate-900" />
-          </div>
-          GIOPROMET
+        <a href="/" onClick={() => setMenuOpen(false)} className="hover:opacity-85 transition-opacity flex-shrink-0">
+          <img src="/logo.png" alt="Giopromet" className="h-8 md:h-10 w-auto" />
         </a>
 
         {/* Links desktop */}
