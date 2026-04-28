@@ -117,7 +117,7 @@ body {
 .animate-marquee {
   display: flex;
   width: max-content;
-  animation: marquee 20s linear infinite;
+  animation: marquee 60s linear infinite;
 }
 
 .animate-float { animation: float 6s ease-in-out infinite; }

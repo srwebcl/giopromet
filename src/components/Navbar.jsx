@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ShoppingCart, Zap, Menu, X, ArrowRight, Instagram, Facebook } from 'lucide-react';
 import { useCart } from '../context/CartContext.jsx';
+import AnnouncementBar from './AnnouncementBar.jsx';
 
 const NAV_LINKS = [
   { label: '⭐ Más Vendido', href: '/#hero' },
@@ -49,13 +50,15 @@ export default function Navbar() {
   };
 
   return (
-    <nav
-      className={`fixed w-full z-[100] transition-all duration-300 ${
-        isScrolled || menuOpen || isMobile
-          ? 'bg-[#060910] border-b border-white/8 shadow-2xl py-3'
-          : 'bg-transparent py-5'
-      }`}
-    >
+    <header className="fixed w-full z-[100] top-0 left-0">
+      <AnnouncementBar />
+      <nav
+        className={`w-full transition-all duration-300 ${
+          isScrolled || menuOpen || isMobile
+            ? 'bg-[#060910] border-b border-white/8 shadow-2xl py-3'
+            : 'bg-transparent py-5'
+        }`}
+      >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center relative z-[110]">
         {/* Logo */}
         <a href="/" onClick={() => setMenuOpen(false)} className="hover:opacity-85 transition-opacity flex-shrink-0">
@@ -169,6 +172,7 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-    </nav>
+      </div>
+    </header>
   );
 }
