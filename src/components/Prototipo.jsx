@@ -331,13 +331,15 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
           </>
         )}
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-28 pb-16 lg:pt-44 lg:pb-14">
-          <div className="flex flex-col lg:grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-16 items-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20 pb-16 lg:pt-28 lg:pb-14">
+          <div 
+            key={currentHero.id} 
+            className="flex flex-col lg:grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-16 items-center animate-fade-in transition-all duration-700"
+          >
 
             {/* ── Título Mobile ── */}
             <div 
-              key={`title-mob-${currentHero.id}`}
-              className={`lg:hidden order-1 text-center transition-all duration-700 animate-slide-up ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+              className={`lg:hidden order-1 text-center transition-all duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
             >
               <div className="flex justify-center mb-4">
                 <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-400/20 to-amber-500/10 border border-amber-400/40 text-amber-300 font-bold text-[10px] tracking-widest uppercase px-4 py-1.5 rounded-full backdrop-blur-sm">
@@ -353,8 +355,7 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
 
             {/* ── Columna imagen ── */}
             <div 
-              key={`img-${currentHero.id}`}
-              className={`order-2 lg:order-2 relative flex items-center justify-center transition-all duration-700 animate-scale-in ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+              className={`order-2 lg:order-2 relative flex items-center justify-center transition-all duration-700 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
             >
               <div className="absolute w-[280px] h-[280px] sm:w-[480px] sm:h-[480px] rounded-full bg-gradient-to-br from-amber-400/20 to-blue-500/10 blur-2xl animate-float-slow" />
               <div className="absolute w-[250px] h-[250px] sm:w-[440px] sm:h-[440px] rounded-full border border-white/10" />
@@ -375,8 +376,7 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
 
             {/* --- Columna texto --- */}
             <div 
-              key={`text-${currentHero.id}`}
-              className={`order-3 lg:order-1 flex flex-col gap-6 text-center lg:text-left transition-all duration-700 animate-slide-right ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}
+              className={`order-3 lg:order-1 flex flex-col gap-6 text-center lg:text-left transition-all duration-700 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}
             >
               {/* Título Desktop */}
               <div className="hidden lg:block">
