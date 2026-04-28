@@ -12,8 +12,8 @@ export default function Footer() {
 
           {/* Marca */}
           <div className="md:col-span-1">
-            <div className="mb-4">
-              <img src="/logo.png" alt="Giopromet" className="h-10 w-auto" />
+            <div className="mb-5 inline-block bg-white px-4 py-2 rounded-xl border border-white/10 shadow-lg">
+              <img src="/logo.png" alt="Giopromet" className="h-8 w-auto object-contain" />
             </div>
             <p className="text-slate-500 text-sm leading-relaxed mb-5">
               Los gadgets más innovadores al mejor precio. Tecnología que transforma tu vida.

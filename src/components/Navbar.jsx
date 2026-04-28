@@ -59,7 +59,9 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center relative z-[110]">
         {/* Logo */}
         <a href="/" onClick={() => setMenuOpen(false)} className="hover:opacity-85 transition-opacity flex-shrink-0">
-          <img src="/logo.png" alt="Giopromet" className="h-8 md:h-10 w-auto" />
+          <div className="bg-white px-3 py-1.5 rounded-xl border-2 border-white/10 shadow-lg flex items-center justify-center">
+            <img src="/logo.png" alt="Giopromet" className="h-6 md:h-8 w-auto object-contain" />
+          </div>
         </a>
 
         {/* Links desktop */}
