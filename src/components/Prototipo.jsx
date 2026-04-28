@@ -486,7 +486,7 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
           <SectionHeader
             pill="Tendencias"
             pillIcon={<TrendingUp className="w-3.5 h-3.5" />}
-            title="Alivio del Dolor y Bienestar Físico"
+            title="🧘‍♂️ Alivio del Dolor y Bienestar Físico"
             subtitle="Soluciones Prácticas para aliviar el dolor y mejorar tu calidad de vida."
           />
           <FlexibleProductList products={trendingProducts} onAddToCart={addToCart} />
