@@ -243,27 +243,37 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
   const [added, setAdded] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [slideDir, setSlideDir] = useState('right'); // 'right' | 'left'
+  const isCarousel = heroProducts.length > 1;
+  const SLIDE_INTERVAL = 5000;
 
   useEffect(() => {
     const t = setTimeout(() => setIsVisible(true), 50);
     return () => clearTimeout(t);
   }, []);
 
-  // Intervalo para el carrusel hero
+  // Auto-advance
   useEffect(() => {
-    if (heroProducts.length <= 1) return;
-    
+    if (!isCarousel || isPaused) return;
     const interval = setInterval(() => {
+      setSlideDir('right');
       setCurrentHeroIndex((prev) => (prev + 1) % heroProducts.length);
-    }, 5000); // Cambiar cada 5 segundos
-
+    }, SLIDE_INTERVAL);
     return () => clearInterval(interval);
-  }, [heroProducts.length]);
+  }, [isCarousel, isPaused, heroProducts.length]);
+
+  const goTo = (index) => {
+    setSlideDir(index > currentHeroIndex ? 'right' : 'left');
+    setCurrentHeroIndex(index);
+  };
+  const goPrev = () => goTo((currentHeroIndex - 1 + heroProducts.length) % heroProducts.length);
+  const goNext = () => goTo((currentHeroIndex + 1) % heroProducts.length);
 
   if (!heroProducts || heroProducts.length === 0) return null;
 
   const currentHero = heroProducts[currentHeroIndex];
-  const discount = currentHero.oldPrice 
+  const discount = currentHero.oldPrice
     ? Math.round(((currentHero.oldPrice - currentHero.price) / currentHero.oldPrice) * 100)
     : 0;
 
@@ -281,8 +291,10 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
       ══════════════════════════════════════════ */}
       <section
         className="relative min-h-screen flex items-center overflow-hidden bg-slate-900"
+        onMouseEnter={() => isCarousel && setIsPaused(true)}
+        onMouseLeave={() => isCarousel && setIsPaused(false)}
       >
-        {/* Fondo dinámico: Mayor visibilidad */}
+        {/* Fondo dinámico */}
         <div 
           key={`bg-${currentHero.id}`}
           className="absolute inset-0 opacity-60 blur-[2px] scale-105 transition-all duration-1000 animate-fade-in"
@@ -292,19 +304,37 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
             backgroundPosition: 'center',
           }}
         />
-        {/* Capa de contraste equilibrado */}
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/60 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-
         <div className="absolute top-0 left-1/3 w-96 h-96 bg-blue-500 rounded-full blur-[180px] opacity-15 pointer-events-none" />
         <div className="absolute bottom-0 left-10 w-80 h-80 bg-cyan-400 rounded-full blur-[150px] opacity-10 pointer-events-none" />
         <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-amber-400 rounded-full blur-[140px] opacity-10 pointer-events-none animate-float-slow" />
         <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)', backgroundSize: '36px 36px' }} />
 
+        {/* Flechas de navegación — solo si hay 2+ productos */}
+        {isCarousel && (
+          <>
+            <button
+              onClick={goPrev}
+              className="absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-amber-400 hover:text-slate-900 border border-white/20 text-white backdrop-blur-sm transition-all duration-200 shadow-xl"
+              aria-label="Anterior"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button
+              onClick={goNext}
+              className="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-30 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-amber-400 hover:text-slate-900 border border-white/20 text-white backdrop-blur-sm transition-all duration-200 shadow-xl"
+              aria-label="Siguiente"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </>
+        )}
+
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20 pb-16 lg:pt-24 lg:pb-14">
           <div className="flex flex-col lg:grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-16 items-center">
 
-            {/* ── Título Mobile (Solo visible en < lg) ── */}
+            {/* ── Título Mobile ── */}
             <div 
               key={`title-mob-${currentHero.id}`}
               className={`lg:hidden order-1 text-center transition-all duration-700 animate-slide-up ${isVisible ? 'opacity-100' : 'opacity-0'}`}
@@ -348,7 +378,6 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
               key={`text-${currentHero.id}`}
               className={`order-3 lg:order-1 flex flex-col gap-6 text-center lg:text-left transition-all duration-700 animate-slide-right ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'}`}
             >
-              
               {/* Título Desktop */}
               <div className="hidden lg:block">
                 <div className="flex justify-center lg:justify-start mb-6">
@@ -363,7 +392,7 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
                 </h1>
               </div>
 
-               <div 
+              <div 
                 className="text-slate-300 text-base sm:text-xl leading-relaxed max-w-xl mx-auto lg:mx-0 font-medium [&_p]:mb-0 [&_span]:block"
                 dangerouslySetInnerHTML={{ __html: currentHero.description }}
               />
@@ -409,16 +438,27 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
                 </a>
               </div>
 
-              {/* Indicadores del Carrusel (Solo si hay más de 1) */}
-              {heroProducts.length > 1 && (
-                <div className="flex gap-3 justify-center lg:justify-start mt-4">
-                  {heroProducts.map((_, i) => (
+              {/* Dots del carrusel con barra de progreso */}
+              {isCarousel && (
+                <div className="flex gap-3 justify-center lg:justify-start mt-2">
+                  {heroProducts.map((p, i) => (
                     <button
                       key={i}
-                      onClick={() => setCurrentHeroIndex(i)}
-                      className={`h-2 rounded-full transition-all duration-500 ${i === currentHeroIndex ? 'w-10 bg-amber-400' : 'w-2 bg-white/30 hover:bg-white/50'}`}
+                      onClick={() => goTo(i)}
+                      title={p.title}
+                      className={`relative h-2 rounded-full overflow-hidden transition-all duration-500 ${i === currentHeroIndex ? 'w-12 bg-white/20' : 'w-2.5 bg-white/20 hover:bg-white/40'}`}
                       aria-label={`Ir al slide ${i + 1}`}
-                    />
+                    >
+                      {i === currentHeroIndex && (
+                        <span
+                          className="absolute inset-y-0 left-0 bg-amber-400 rounded-full"
+                          style={{
+                            animation: isPaused ? 'none' : `slideProgress ${SLIDE_INTERVAL}ms linear forwards`,
+                            width: isPaused ? '100%' : undefined,
+                          }}
+                        />
+                      )}
+                    </button>
                   ))}
                 </div>
               )}
@@ -446,9 +486,8 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
           <SectionHeader
             pill="Tendencias"
             pillIcon={<TrendingUp className="w-3.5 h-3.5" />}
-            title="TENDENCIAS"
+            title="Alivio del Dolor y Bienestar Físico"
             subtitle="Soluciones Prácticas para aliviar el dolor y mejorar tu calidad de vida."
-            description="Alivio del Dolor y Bienestar Físico"
           />
           <FlexibleProductList products={trendingProducts} onAddToCart={addToCart} />
         </div>
