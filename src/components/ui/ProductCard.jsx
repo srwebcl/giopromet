@@ -9,7 +9,7 @@ const ShippingTag = ({ type, text }) => {
   return (
     <div className="inline-flex items-center gap-1.5 bg-amber-400/10 border border-amber-400/20 text-amber-400 text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest animate-pulse-glow">
       <Truck className="w-3.5 h-3.5" />
-      Envío Gratis a todo Chile
+      Envío Gratis - Chile
     </div>
   );
 };
@@ -39,8 +39,8 @@ export default function ProductCard({ product, onAddToCart, dark = false }) {
           </div>
         )}
         {product.shipping && (
-          <div className="absolute -bottom-4 -left-2 sm:-left-6 bg-amber-400 text-slate-900 rounded-xl sm:rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 shadow-xl flex items-center gap-2 font-black text-[10px] sm:text-xs whitespace-nowrap animate-bounce-in z-20">
-            <Truck className="w-3.5 h-3.5 sm:w-4 h-4" />ENVÍO GRATIS A TODO CHILE
+          <div className="absolute bottom-3 left-3 z-20 bg-amber-400 text-slate-900 rounded-lg px-2.5 py-1.5 shadow-xl flex items-center gap-1.5 font-black text-[10px] uppercase tracking-tighter animate-bounce-in">
+            <Truck className="w-3 h-3" />ENVÍO GRATIS
           </div>
         )}
 

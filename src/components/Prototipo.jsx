@@ -331,7 +331,7 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
           </>
         )}
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20 pb-16 lg:pt-28 lg:pb-14">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-36 pb-16 lg:pt-48 lg:pb-14">
           <div 
             key={currentHero.id} 
             className="flex flex-col lg:grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-16 items-center animate-fade-in transition-all duration-700"
@@ -366,7 +366,7 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
                   <div className="absolute bottom-0 inset-x-0 h-1/3 bg-gradient-to-t from-slate-900/60 to-transparent" />
                 </div>
                 <div className="absolute -bottom-4 -left-2 sm:-left-6 bg-amber-400 text-slate-900 rounded-xl sm:rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 shadow-xl flex items-center gap-2 font-black text-[10px] sm:text-xs whitespace-nowrap animate-bounce-in">
-                  <Truck className="w-3.5 h-3.5 sm:w-4 h-4" />ENVÍO GRATIS A TODO CHILE
+                  <Truck className="w-3.5 h-3.5 sm:w-4 h-4" />ENVÍO GRATIS - CHILE
                 </div>
                 <div className="absolute -top-2 -left-4 sm:-left-8 bg-white text-slate-900 rounded-xl sm:rounded-2xl px-2.5 sm:px-3.5 py-1.5 sm:py-2.5 shadow-xl flex items-center gap-1.5 sm:gap-2 font-bold text-[10px] sm:text-sm">
                   <Star className="w-3.5 h-3.5 sm:w-4 h-4 text-amber-400 fill-amber-400" /><span>{currentHero.stats?.rating || '4.9'}</span><span className="text-slate-400 font-normal text-[8px] sm:text-xs">({currentHero.stats?.purchases || '+1.5k'})</span>
