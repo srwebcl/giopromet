@@ -342,7 +342,7 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
               <div className="flex justify-center mb-4">
                 <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-400/20 to-amber-500/10 border border-amber-400/40 text-amber-300 font-bold text-[10px] tracking-widest uppercase px-4 py-1.5 rounded-full backdrop-blur-sm">
                   <Zap className="w-3 h-3 fill-amber-400 text-amber-400" />
-                  {currentHero.subtitle || '⭐ PRODUCTO DESTACADO'}
+                  {currentHero.subtitle}
                 </div>
               </div>
               <h1 className="tracking-tight overflow-visible">
@@ -383,7 +383,7 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
                 <div className="flex justify-center lg:justify-start mb-6">
                   <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-400/20 to-amber-500/10 border border-amber-400/40 text-amber-300 font-bold text-xs tracking-widest uppercase px-5 py-2.5 rounded-full backdrop-blur-sm">
                     <Zap className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                    {currentHero.subtitle || '⭐ PRODUCTO DESTACADO'}
+                    {currentHero.subtitle}
                   </div>
                 </div>
                 <h1 id="hero" className="tracking-tighter max-w-2xl overflow-visible">

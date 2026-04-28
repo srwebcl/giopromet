@@ -59,7 +59,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center relative z-[110]">
         {/* Logo */}
         <a href="/" onClick={() => setMenuOpen(false)} className="hover:opacity-85 transition-opacity flex-shrink-0">
-          <img src="/logo.webp" alt="Giopromet" className="h-10 md:h-14 w-auto object-contain" />
+          <img src="/logo.webp" alt="Giopromet" className="h-12 md:h-20 w-auto object-contain" />
         </a>
 
         {/* Links desktop */}
