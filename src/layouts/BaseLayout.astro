@@ -2,6 +2,7 @@
 import NavbarWithCart from '../components/NavbarWithCart.jsx';
 import Footer from '../components/Footer.jsx';
 import WhatsAppButton from '../components/WhatsAppButton.jsx';
+import AnnouncementBar from '../components/AnnouncementBar.jsx';
 import '../styles/globals.css';
 
 interface Props {
@@ -29,6 +30,7 @@ const {
     <title>{title}</title>
   </head>
   <body>
+    <AnnouncementBar client:load />
     <!-- Navbar con su propio CartProvider (isla independiente en Astro) -->
     <NavbarWithCart client:load />
     <main>

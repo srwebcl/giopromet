@@ -13,12 +13,11 @@ const formatPrice = (price) => {
   return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(price);
 };
 
-const ShippingTag = ({ type, text }) => {
-  const isFast = type === 'fast';
+const ShippingTag = () => {
   return (
-    <div className={`inline-flex items-center gap-2 ${isFast ? 'bg-green-500/10 border-green-500/20 text-green-400' : 'bg-blue-500/10 border-blue-500/20 text-blue-400'} border text-[9px] font-black px-3 py-1 rounded-lg uppercase tracking-wider`}>
-      {isFast ? <TruckIcon className="w-3 h-3" /> : <GlobeIcon className="w-3 h-3" />}
-      {text}
+    <div className="inline-flex items-center gap-2 bg-amber-400/10 border-amber-400/20 text-amber-400 border text-[9px] font-black px-3 py-1.5 rounded-lg uppercase tracking-widest animate-pulse-glow">
+      <TruckIcon className="w-3.5 h-3.5" />
+      Envío Gratis a todo Chile
     </div>
   );
 };
@@ -102,7 +101,7 @@ export default function ProductDetail({ product, relatedProducts = [] }) {
                   {[...Array(5)].map((_, i) => <StarIcon key={i} className="w-3.5 h-3.5 fill-current" />)}
                   <span className="ml-1 text-xs font-black text-white">4.9 / 5.0</span>
                 </div>
-                <ShippingTag type={product.shipping.type} text={product.shipping.text} />
+                <ShippingTag />
               </div>
 
               <div className="flex flex-col items-center lg:items-start gap-1 mb-6">

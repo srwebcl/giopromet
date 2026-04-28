@@ -365,8 +365,8 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
                   <img src={currentHero.image} alt={currentHero.title} className="w-full h-full object-cover" width="400" height="400" loading="eager" />
                   <div className="absolute bottom-0 inset-x-0 h-1/3 bg-gradient-to-t from-slate-900/60 to-transparent" />
                 </div>
-                <div className="absolute -bottom-4 -left-2 sm:-left-6 bg-green-500 text-white rounded-xl sm:rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 shadow-xl flex items-center gap-2 font-bold text-[10px] sm:text-sm whitespace-nowrap">
-                  <Truck className="w-3.5 h-3.5 sm:w-4 h-4" />Envío Rápido
+                <div className="absolute -bottom-4 -left-2 sm:-left-6 bg-amber-400 text-slate-900 rounded-xl sm:rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 shadow-xl flex items-center gap-2 font-black text-[10px] sm:text-xs whitespace-nowrap animate-bounce-in">
+                  <Truck className="w-3.5 h-3.5 sm:w-4 h-4" />ENVÍO GRATIS A TODO CHILE
                 </div>
                 <div className="absolute -top-2 -left-4 sm:-left-8 bg-white text-slate-900 rounded-xl sm:rounded-2xl px-2.5 sm:px-3.5 py-1.5 sm:py-2.5 shadow-xl flex items-center gap-1.5 sm:gap-2 font-bold text-[10px] sm:text-sm">
                   <Star className="w-3.5 h-3.5 sm:w-4 h-4 text-amber-400 fill-amber-400" /><span>{currentHero.stats?.rating || '4.9'}</span><span className="text-slate-400 font-normal text-[8px] sm:text-xs">({currentHero.stats?.purchases || '+1.5k'})</span>

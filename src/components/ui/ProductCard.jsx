@@ -6,18 +6,10 @@ const formatPrice = (price) =>
   new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(price);
 
 const ShippingTag = ({ type, text }) => {
-  if (type === 'fast') {
-    return (
-      <div className="inline-flex items-center gap-1.5 bg-green-500/15 border border-green-500/30 text-green-400 text-xs font-bold px-3 py-1.5 rounded-full">
-        <Truck className="w-3.5 h-3.5" />
-        {text}
-      </div>
-    );
-  }
   return (
-    <div className="inline-flex items-center gap-1.5 bg-blue-500/15 border border-blue-500/30 text-blue-400 text-xs font-bold px-3 py-1.5 rounded-full">
-      <Globe className="w-3.5 h-3.5" />
-      {text}
+    <div className="inline-flex items-center gap-1.5 bg-amber-400/10 border border-amber-400/20 text-amber-400 text-[10px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest animate-pulse-glow">
+      <Truck className="w-3.5 h-3.5" />
+      Envío Gratis a todo Chile
     </div>
   );
 };
@@ -44,6 +36,11 @@ export default function ProductCard({ product, onAddToCart, dark = false }) {
         {discount && (
           <div className="absolute top-4 left-4 z-10 bg-gradient-to-br from-red-500 to-rose-600 text-white text-xs font-black px-2.5 py-1 rounded-full shadow-lg">
             -{discount}%
+          </div>
+        )}
+        {product.shipping && (
+          <div className="absolute -bottom-4 -left-2 sm:-left-6 bg-amber-400 text-slate-900 rounded-xl sm:rounded-2xl px-3 sm:px-4 py-2 sm:py-2.5 shadow-xl flex items-center gap-2 font-black text-[10px] sm:text-xs whitespace-nowrap animate-bounce-in z-20">
+            <Truck className="w-3.5 h-3.5 sm:w-4 h-4" />ENVÍO GRATIS A TODO CHILE
           </div>
         )}
 
