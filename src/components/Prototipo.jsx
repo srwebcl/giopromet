@@ -47,7 +47,7 @@ function TrustPill({ icon, text }) {
 }
 
 /* ─── Section Header Premium ─── */
-function SectionHeader({ pill, pillIcon, title, subtitle, light = false }) {
+function SectionHeader({ pill, pillIcon, title, subtitle, description, light = false }) {
   return (
     <div className="text-center max-w-2xl mx-auto mb-16">
       <div className="flex justify-center mb-4">
@@ -60,11 +60,16 @@ function SectionHeader({ pill, pillIcon, title, subtitle, light = false }) {
           {pill}
         </div>
       </div>
-      <h2 className={`text-4xl sm:text-5xl font-extrabold mb-4 leading-tight ${
+      <h2 className={`text-4xl sm:text-5xl font-extrabold mb-3 leading-tight ${
         light ? 'text-slate-900' : 'text-white'
       }`}>
         {title}
       </h2>
+      {description && (
+        <p className={`text-base font-semibold mb-2 uppercase tracking-wider ${light ? 'text-slate-600' : 'text-amber-300/80'}`}>
+          {description}
+        </p>
+      )}
       <p className={`text-lg ${light ? 'text-slate-500' : 'text-slate-400'}`}>
         {subtitle}
       </p>
@@ -441,8 +446,9 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
           <SectionHeader
             pill="Tendencias"
             pillIcon={<TrendingUp className="w-3.5 h-3.5" />}
-            title="🔥 Productos en Tendencia"
-            subtitle="Gadgets llamativos que generan curiosidad y mejoran tu día a día."
+            title="TENDENCIAS"
+            subtitle="Soluciones Prácticas para aliviar el dolor y mejorar tu calidad de vida."
+            description="Alivio del Dolor y Bienestar Físico"
           />
           <FlexibleProductList products={trendingProducts} onAddToCart={addToCart} />
         </div>

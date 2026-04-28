@@ -1,6 +1,7 @@
 ---
 import NavbarWithCart from '../components/NavbarWithCart.jsx';
 import Footer from '../components/Footer.jsx';
+import WhatsAppButton from '../components/WhatsAppButton.jsx';
 import '../styles/globals.css';
 
 interface Props {
@@ -34,5 +35,6 @@ const {
       <slot />
     </main>
     <Footer />
+    <WhatsAppButton client:load />
   </body>
 </html>
