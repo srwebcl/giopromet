@@ -331,7 +331,7 @@ function AppContent({ heroProducts = [], trendingProducts, viralProducts, comple
           </>
         )}
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20 pb-16 lg:pt-24 lg:pb-14">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-28 pb-16 lg:pt-44 lg:pb-14">
           <div className="flex flex-col lg:grid lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-16 items-center">
 
             {/* ── Título Mobile ── */}
